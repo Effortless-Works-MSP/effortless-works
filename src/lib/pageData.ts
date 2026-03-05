@@ -1,4 +1,4 @@
-import type { ProductSection, PageMeta } from '@/types/index'
+import type { ProductSection, PageMeta } from '@/types'
 
 // ─── BUSINESS PAGE ──────────────────────────────────────────
 

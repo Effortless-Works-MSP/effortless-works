@@ -8,13 +8,13 @@ function ProductIcon({ type }: { type: Product['type'] }) {
   const cls = "w-5 h-5"
   const stroke = { stroke: 'var(--sage)', fill: 'none', strokeWidth: 1.5, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const }
 
-  if (type === 'Spreadsheet') return (
+  if (type === 'Google Sheets') return (
     <svg viewBox="0 0 24 24" className={cls} {...stroke}>
       <rect x="3" y="3" width="18" height="18" rx="2" />
       <path d="M3 9h18M9 21V9" />
     </svg>
   )
-  if (type === 'Notion Template') return (
+  if (type === 'Notion') return (
     <svg viewBox="0 0 24 24" className={cls} {...stroke}>
       <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
       <polyline points="14 2 14 8 20 8" />
