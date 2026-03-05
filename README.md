@@ -1,6 +1,6 @@
 # Effortless Works
 
-A Next.js 14 + TypeScript + Tailwind CSS website, ready to deploy on Vercel.
+A Next.js 14 + TypeScript + Tailwind CSS website, on Vercel.
 
 ## Tech Stack
 
