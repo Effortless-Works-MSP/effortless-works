@@ -41,7 +41,7 @@ export default function Areas() {
         {LIFE_AREAS.map((area, i) => (
           <div
             key={area.number}
-            className={`reveal reveal-delay-${i + 1} flex flex-col gap-4 p-8 transition-colors duration-300`}
+            className={`flex flex-col gap-4 p-8 transition-colors duration-300`}
             style={{ background: 'var(--surface)' }}
             onMouseEnter={e => (e.currentTarget.style.background = 'var(--surface2)')}
             onMouseLeave={e => (e.currentTarget.style.background = 'var(--surface)')}
