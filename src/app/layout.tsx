@@ -10,10 +10,6 @@ export const metadata: Metadata = {
     description: 'A home for every version of you.',
     type: 'website',
   },
-  icons: {
-    icon: '/favicon.svg',
-    apple: '/favicon.svg',
-  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
