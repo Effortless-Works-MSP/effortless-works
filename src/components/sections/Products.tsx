@@ -6,7 +6,7 @@ import { useReveal } from '@/lib/useReveal'
 import type { Product } from '@/types'
 
 // ─── Products aligned to NAV_ITEMS structure ──────────────────────────────────
-const PRODUCTS: (Product & { category: string; subcategory: string; href: string; tags: string[] })[] = [
+const PRODUCTS: (Omit<Product, 'price' | 'available'> & { price: number | string; available?: boolean; category: string; subcategory: string; href: string; tags: string[] })[] = [
 
   // ── BUSINESS › Back Office ────────────────────────────────────────────────
   {
@@ -17,7 +17,7 @@ const PRODUCTS: (Product & { category: string; subcategory: string; href: string
     subcategory: 'Back Office',
     href: '/000009/bo-sheets',
     description: 'Full back office tracking suite covering sales, KPIs, client management, commissions, payroll, and recruitment.',
-    price: '49',
+    price: 49,
     featured: true,
     tags: ['Sales', 'KPIs', 'Clients', 'Commissions', 'Payroll', 'Recruitment'],
   },
