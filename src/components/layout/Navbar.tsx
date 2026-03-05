@@ -5,17 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NAV_ITEMS } from '@/lib/navData'
 import type { NavItem } from '@/lib/navData'
-
-function Logo({ size = 32 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 88 88" fill="none">
-      <circle cx="44" cy="44" r="40" stroke="#E8E4DC" strokeWidth="1.2" fill="none" opacity="0.4" />
-      <path d="M22 44 C22 30 34 25 44 33 C54 41 62 36 66 28" stroke="#7BBFA0" strokeWidth="2" strokeLinecap="round" fill="none" />
-      <path d="M22 54 C28 47 36 44 44 44 C52 44 58 47 66 54" stroke="#E8E4DC" strokeWidth="1.2" strokeLinecap="round" fill="none" opacity="0.3" />
-      <circle cx="44" cy="44" r="3.5" fill="#7BBFA0" />
-    </svg>
-  )
-}
+import Logo from '@/components/ui/Logo'
 
 function Chevron({ open }: { open: boolean }) {
   return (
@@ -51,9 +41,18 @@ function DropdownPanel({ item, onClose }: { item: NavItem; onClose: () => void }
         background: 'linear-gradient(90deg, transparent, #7BBFA0, transparent)',
       }} />
 
-      {imageSrc && (
+      {imageAlt && (
         <div style={{ marginBottom: 20, paddingBottom: 16, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-          <img src={imageSrc} alt={imageAlt ?? ''} style={{ height: 22, opacity: 0.85 }} />
+          <span style={{
+            fontFamily: 'Cormorant Garamond, serif',
+            fontSize: 17,
+            fontWeight: 400,
+            color: '#E8E4DC',
+            letterSpacing: '0.06em',
+            opacity: 0.9,
+          }}>
+            {imageAlt}
+          </span>
         </div>
       )}
 
@@ -139,13 +138,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
           borderBottom: '1px solid rgba(255,255,255,0.07)',
           flexShrink: 0,
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <Logo size={28} />
-            <div>
-              <div style={{ fontFamily: 'Cormorant Garamond, serif', fontSize: 16, color: '#E8E4DC', letterSpacing: '0.06em', lineHeight: 1 }}>Effortless</div>
-              <div style={{ fontSize: 8, letterSpacing: '0.4em', textTransform: 'uppercase', color: '#7BBFA0', marginTop: 3 }}>Works</div>
-            </div>
-          </div>
+          <Logo size={44} />
           <button onClick={onClose} aria-label="Close menu" style={{
             width: 36, height: 36, borderRadius: '50%',
             border: '1px solid rgba(255,255,255,0.07)',
@@ -312,16 +305,8 @@ export default function Navbar() {
         }}>
 
           {/* ── Logo ── */}
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none', flexShrink: 0 }}>
-            <Logo size={32} />
-            <div>
-              <div style={{ fontFamily: 'Cormorant Garamond, serif', fontWeight: 300, fontSize: 18, color: '#E8E4DC', letterSpacing: '0.08em', lineHeight: 1 }}>
-                Effortless
-              </div>
-              <div style={{ fontSize: 8, letterSpacing: '0.4em', textTransform: 'uppercase', color: '#7BBFA0', marginTop: 2 }}>
-                Works
-              </div>
-            </div>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
+            <Logo size={44} />
           </Link>
 
           {/* ── Desktop nav ── */}

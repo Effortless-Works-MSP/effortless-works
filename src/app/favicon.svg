@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 88" width="88" height="88">
+  <!-- Dark background -->
+  <rect width="88" height="88" rx="20" fill="#0C0D0E"/>
+
+  <!-- Circle -->
+  <circle cx="44" cy="44" r="36" stroke="#E8E4DC" stroke-width="1.5" fill="none"/>
+
+  <!-- Upper flowing green curve -->
+  <path d="M22 44 C22 30 34 25 44 33 C54 41 62 36 66 28"
+        stroke="#6B8F71" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+
+  <!-- Lower subtle curve -->
+  <path d="M22 54 C28 47 36 44 44 44 C52 44 58 47 66 54"
+        stroke="#A8BFBA" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+
+  <!-- Center anchor dot -->
+  <circle cx="44" cy="44" r="3.5" fill="#6B8F71"/>
+</svg>
