@@ -78,8 +78,7 @@ function DropdownPanel({ item, onClose }: { item: NavItem; onClose: () => void }
                     padding: '8px 10px', borderRadius: 10,
                     transition: 'background 0.15s',
                   }}
-                    onMouseEnter={e => (e.currentTarget.style.background = 'rgba(123,191,160,0.08)')}
-                    onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                    className="ew-dropdown-item"
                   >
                     <span style={{ display: 'block', fontSize: 13, color: '#E8E4DC', lineHeight: 1.3 }}>
                       {subItem.label}
@@ -294,6 +293,9 @@ export default function Navbar() {
           .ew-desktop-nav { display: none !important; }
           .ew-cta-btn     { display: none !important; }
         }
+        .ew-nav-link:hover { color: #E8E4DC !important; }
+        .ew-cta-btn:hover { background: #7BBFA0 !important; color: #0C0D0E !important; }
+        .ew-dropdown-item:hover { background: rgba(123,191,160,0.08) !important; }
       `}</style>
 
       <header ref={navRef} style={{
@@ -350,7 +352,7 @@ export default function Navbar() {
                     <Chevron open={activeDropdown === item.label} />
                   </button>
                 ) : (
-                  <Link href={item.href ?? '/'} style={{
+                  <Link href={item.href ?? '/'} className="ew-nav-link" style={{
                     display: 'block', padding: '7px 14px', borderRadius: 100,
                     color: pathname === item.href ? '#E8E4DC' : 'rgba(232,228,220,0.55)',
                     fontSize: 13, letterSpacing: '0.04em',
@@ -358,8 +360,6 @@ export default function Navbar() {
                     transition: 'color 0.15s',
                     whiteSpace: 'nowrap',
                   }}
-                    onMouseEnter={e => (e.currentTarget.style.color = '#E8E4DC')}
-                    onMouseLeave={e => (e.currentTarget.style.color = pathname === item.href ? '#E8E4DC' : 'rgba(232,228,220,0.55)')}
                   >
                     {item.label}
                   </Link>
@@ -382,8 +382,6 @@ export default function Navbar() {
               textDecoration: 'none',
               transition: 'background 0.2s, color 0.2s',
             }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#7BBFA0'; e.currentTarget.style.color = '#0C0D0E' }}
-              onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#7BBFA0' }}
             >
               Get Started
             </Link>
