@@ -85,7 +85,9 @@ export default function InfoPage() {
                 Effortless Works is part of the Muslim Success Path ecosystem — a growing collection of tools, resources, and community built for Muslims who want to thrive in every area of their life.
               </p>
             </div>
+            <style>{`.msp-link:hover { background: #7BBFA0 !important; color: #0C0D0E !important; }`}</style>
             <a href="https://www.muslimsuccesspath.com" target="_blank" rel="noopener noreferrer"
+              className="msp-link"
               style={{
                 padding: '12px 24px', borderRadius: 100,
                 border: '1px solid rgba(123,191,160,0.3)',
@@ -93,14 +95,6 @@ export default function InfoPage() {
                 textDecoration: 'none', whiteSpace: 'nowrap',
                 flexShrink: 0,
                 transition: 'background 0.2s, color 0.2s',
-              }}
-              onMouseEnter={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                e.currentTarget.style.background = '#7BBFA0'
-                e.currentTarget.style.color = '#0C0D0E'
-              }}
-              onMouseLeave={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                e.currentTarget.style.background = 'transparent'
-                e.currentTarget.style.color = '#7BBFA0'
               }}
             >
               Visit Site ↗
