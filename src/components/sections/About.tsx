@@ -59,7 +59,7 @@ export default function About() {
 
       {/* Text content */}
       <div className="flex flex-col justify-center">
-        <p className="text-xs tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
+        <p className="text-sm tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
           The Philosophy
         </p>
         <h2
@@ -70,11 +70,11 @@ export default function About() {
           <em style={{ fontStyle: 'italic', color: 'var(--sage)' }}>all of it.</em>
         </h2>
 
-        <p className="text-sm leading-loose mb-5 max-w-md" style={{ color: 'var(--text-dim)' }}>
+        <p className="text-md leading-loose mb-5 max-w-md" style={{ color: 'var(--text-dim)' }}>
           You're not just running a business. You're also working on yourself — your health, your
           relationships, maybe your faith. And you're doing it all at the same time.
         </p>
-        <p className="text-sm leading-loose mb-8 max-w-md" style={{ color: 'var(--text-dim)' }}>
+        <p className="text-md leading-loose mb-8 max-w-md" style={{ color: 'var(--text-dim)' }}>
           Effortless Works exists to give every part of your life a home. Not a system that
           overwhelms — a space that welcomes.
         </p>

@@ -1,11 +1,137 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { NAV_ITEMS } from '@/lib/navData'
 import type { NavItem } from '@/lib/navData'
 import Logo from '@/components/ui/Logo'
+
+// ─── Floating Bubble Box ─────────────────────────────────────
+const BUBBLE_VARIANTS = [
+  { bg: 'rgba(123,191,160,0.12)', color: '#7BBFA0', border: '1px solid rgba(123,191,160,0.25)' },
+  { bg: 'rgba(255,255,255,0.04)', color: 'rgba(232,228,220,0.45)', border: '1px solid rgba(255,255,255,0.08)' },
+  { bg: 'rgba(232,228,220,0.05)', color: 'rgba(232,228,220,0.35)', border: '1px solid rgba(232,228,220,0.1)' },
+]
+
+interface BubbleState {
+  tag: string
+  x: number
+  y: number
+  vx: number
+  vy: number
+  variant: typeof BUBBLE_VARIANTS[number]
+}
+
+function FloatingBubbleBox({ tags, active }: { tags: string[]; active: boolean }) {
+  const boxRef = useRef<HTMLDivElement>(null)
+  const bubblesRef = useRef<BubbleState[]>([])
+  const rafRef = useRef<number | null>(null)
+  const elRefs = useRef<(HTMLSpanElement | null)[]>([])
+  const [ready, setReady] = useState(false)
+
+  // initialise bubble positions once the box is measured
+  useEffect(() => {
+    if (!active || !boxRef.current) return
+    const box = boxRef.current
+    const W = box.offsetWidth
+    const H = box.offsetHeight
+
+    // wait one frame so span elements are rendered and measurable
+    const id = requestAnimationFrame(() => {
+      bubblesRef.current = tags.map((tag, i) => {
+        const el = elRefs.current[i]
+        const bw = el ? el.offsetWidth : 60
+        const bh = el ? el.offsetHeight : 20
+        const speed = 0.18 + Math.random() * 0.22
+        const angle = Math.random() * Math.PI * 2
+        return {
+          tag,
+          x: Math.random() * Math.max(0, W - bw),
+          y: Math.random() * Math.max(0, H - bh),
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          variant: BUBBLE_VARIANTS[i % BUBBLE_VARIANTS.length],
+        }
+      })
+      setReady(true)
+    })
+    return () => cancelAnimationFrame(id)
+  }, [active, tags])
+
+  // animation loop
+  useEffect(() => {
+    if (!active || !ready || !boxRef.current) return
+    const box = boxRef.current
+
+    const animate = () => {
+      const W = box.offsetWidth
+      const H = box.offsetHeight
+      bubblesRef.current.forEach((b, i) => {
+        const el = elRefs.current[i]
+        if (!el) return
+        const bw = el.offsetWidth
+        const bh = el.offsetHeight
+        b.x += b.vx
+        b.y += b.vy
+        if (b.x <= 0) { b.x = 0; b.vx = Math.abs(b.vx) }
+        if (b.x + bw >= W) { b.x = W - bw; b.vx = -Math.abs(b.vx) }
+        if (b.y <= 0) { b.y = 0; b.vy = Math.abs(b.vy) }
+        if (b.y + bh >= H) { b.y = H - bh; b.vy = -Math.abs(b.vy) }
+        el.style.transform = `translate(${b.x}px, ${b.y}px)`
+      })
+      rafRef.current = requestAnimationFrame(animate)
+    }
+
+    rafRef.current = requestAnimationFrame(animate)
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
+  }, [active, ready])
+
+  return (
+    <div
+      ref={boxRef}
+      style={{
+        position: 'relative',
+        width: '100%',
+        height: 64,
+        borderRadius: 10,
+        border: `1px solid ${active ? 'rgba(123,191,160,0.2)' : 'rgba(255,255,255,0.06)'}`,
+        background: 'rgba(0,0,0,0.2)',
+        overflow: 'hidden',
+        marginTop: 6,
+        transition: 'border-color 0.2s',
+      }}
+    >
+      {tags.map((tag, i) => {
+        const v = BUBBLE_VARIANTS[i % BUBBLE_VARIANTS.length]
+        return (
+          <span
+            key={tag}
+            ref={el => { elRefs.current[i] = el }}
+            style={{
+              position: 'absolute',
+              borderRadius: 100,
+              padding: '3px 9px',
+              fontSize: 9.5,
+              fontFamily: 'inherit',
+              letterSpacing: '0.03em',
+              whiteSpace: 'nowrap',
+              pointerEvents: 'none',
+              background: v.bg,
+              color: v.color,
+              border: v.border,
+              opacity: active && ready ? 1 : 0,
+              transition: 'opacity 0.3s',
+              transform: 'translate(0px, 0px)',
+            }}
+          >
+            {tag}
+          </span>
+        )
+      })}
+    </div>
+  )
+}
 
 function Chevron({ open }: { open: boolean }) {
   return (
@@ -18,8 +144,10 @@ function Chevron({ open }: { open: boolean }) {
 
 function DropdownPanel({ item, onClose }: { item: NavItem; onClose: () => void }) {
   if (!item.dropdown) return null
-  const { sections, imageSrc, imageAlt } = item.dropdown
+  const { sections } = item.dropdown
   const cols = Math.min(sections.length, 4)
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null)
+
   return (
     <div style={{
       position: 'absolute',
@@ -41,55 +169,43 @@ function DropdownPanel({ item, onClose }: { item: NavItem; onClose: () => void }
         background: 'linear-gradient(90deg, transparent, #7BBFA0, transparent)',
       }} />
 
-      {imageAlt && (
-        <div style={{ marginBottom: 20, paddingBottom: 16, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-          <span style={{
-            fontFamily: 'Cormorant Garamond, serif',
-            fontSize: 17,
-            fontWeight: 400,
-            color: '#E8E4DC',
-            letterSpacing: '0.06em',
-            opacity: 0.9,
-          }}>
-            {imageAlt}
-          </span>
-        </div>
-      )}
-
       <div style={{
         display: 'grid',
         gridTemplateColumns: `repeat(${cols}, 1fr)`,
         gap: 28,
+        alignItems: 'start',
       }}>
         {sections.map((section) => (
-          <div key={section.title}>
+          <div key={section.title} style={{ display: 'flex', flexDirection: 'column' }}>
             <p style={{
-              fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase',
-              color: '#7BBFA0', marginBottom: 10, fontWeight: 500,
+              fontSize: 12, letterSpacing: '0.22em', textTransform: 'uppercase',
+              color: '#7BBFA0', fontWeight: 500, textAlign: 'center',
+              borderBottom: '0.5px solid rgba(123,191,160,0.3)', paddingBottom: 6,
+              margin: '0 0 10px 0',
+              height: 36, display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
             }}>
               {section.title}
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {section.items.map((subItem) => (
-                <Link key={subItem.href} href={subItem.href} onClick={onClose}
-                  style={{ textDecoration: 'none' }}>
-                  <div style={{
-                    padding: '8px 10px', borderRadius: 10,
-                    transition: 'background 0.15s',
-                  }}
-                    className="ew-dropdown-item"
-                  >
-                    <span style={{ display: 'block', fontSize: 13, color: '#E8E4DC', lineHeight: 1.3 }}>
-                      {subItem.label}
-                    </span>
-                    {subItem.description && (
-                      <span style={{ display: 'block', fontSize: 11, color: 'rgba(232,228,220,0.45)', marginTop: 2 }}>
-                        {subItem.description}
+              {section.items.map((subItem) => {
+                const key = `${section.title}-${subItem.label}`
+                return (
+                  <Link key={subItem.href + subItem.label} href={subItem.href} onClick={onClose}
+                    style={{ textDecoration: 'none' }}>
+                    <div
+                      className="ew-dropdown-item"
+                      style={{ padding: '8px 10px', borderRadius: 10, transition: 'background 0.15s' }}
+                    >
+                      <span style={{ display: 'block', fontSize: 16, color: '#E8E4DC', lineHeight: 1.3 }}>
+                        {subItem.label}
                       </span>
-                    )}
-                  </div>
-                </Link>
-              ))}
+                      {subItem.tags && subItem.tags.length > 0 && (
+                        <FloatingBubbleBox tags={subItem.tags} active={true} />
+                      )}
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
           </div>
         ))}
@@ -162,7 +278,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
                       padding: '14px 24px',
                       background: 'transparent', border: 'none', cursor: 'pointer',
                       color: expanded === item.label ? '#7BBFA0' : '#E8E4DC',
-                      fontSize: 14, letterSpacing: '0.04em',
+                      fontSize: 15, letterSpacing: '0.04em',
                       fontFamily: 'inherit',
                       transition: 'color 0.15s',
                     }}>
@@ -179,13 +295,13 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
                       {item.dropdown.sections.map((section) => (
                         <div key={section.title} style={{ padding: '6px 24px 4px 32px' }}>
                           <p style={{
-                            fontSize: 9, letterSpacing: '0.22em', textTransform: 'uppercase',
+                            fontSize: 10, letterSpacing: '0.22em', textTransform: 'uppercase',
                             color: '#7BBFA0', marginBottom: 6, fontWeight: 500,
                           }}>{section.title}</p>
                           {section.items.map((subItem) => (
                             <Link key={subItem.href} href={subItem.href} onClick={onClose} style={{
                               display: 'block', padding: '7px 10px', marginBottom: 1,
-                              fontSize: 13, color: 'rgba(232,228,220,0.6)',
+                              fontSize: 14, color: 'rgba(232,228,220,0.6)',
                               textDecoration: 'none', borderRadius: 8,
                               transition: 'color 0.15s',
                             }}
@@ -203,7 +319,7 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
               ) : (
                 <Link href={item.href ?? '/'} onClick={onClose} style={{
                   display: 'block', padding: '14px 24px',
-                  fontSize: 14, letterSpacing: '0.04em',
+                  fontSize: 15, letterSpacing: '0.04em',
                   color: '#E8E4DC', textDecoration: 'none',
                   transition: 'color 0.15s',
                 }}
@@ -327,7 +443,7 @@ export default function Navbar() {
                       background: activeDropdown === item.label ? 'rgba(123,191,160,0.09)' : 'transparent',
                       border: 'none', cursor: 'pointer',
                       color: activeDropdown === item.label ? '#E8E4DC' : 'rgba(232,228,220,0.55)',
-                      fontSize: 13, letterSpacing: '0.04em',
+                      fontSize: 15, letterSpacing: '0.04em',
                       fontFamily: 'inherit',
                       transition: 'color 0.15s, background 0.15s',
                       whiteSpace: 'nowrap',
@@ -340,7 +456,7 @@ export default function Navbar() {
                   <Link href={item.href ?? '/'} className="ew-nav-link" style={{
                     display: 'block', padding: '7px 14px', borderRadius: 100,
                     color: pathname === item.href ? '#E8E4DC' : 'rgba(232,228,220,0.55)',
-                    fontSize: 13, letterSpacing: '0.04em',
+                    fontSize: 15, letterSpacing: '0.04em',
                     textDecoration: 'none',
                     transition: 'color 0.15s',
                     whiteSpace: 'nowrap',

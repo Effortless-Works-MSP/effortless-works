@@ -13,7 +13,7 @@
   --sage-dim:    rgba(123,191,160,0.15);
   --sage-glow:   rgba(123,191,160,0.06);
   --text:        #E8E4DC;
-  --text-dim:    rgba(232,228,220,0.5);
+  --text-dim:    rgba(232, 228, 220, 0.651);
   --text-faint:  rgba(232,228,220,0.25);
 }
 
@@ -23,7 +23,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-family: 'DM Sans', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   overflow-x: hidden;
 }
 

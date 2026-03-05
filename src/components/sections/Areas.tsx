@@ -12,7 +12,7 @@ export default function Areas() {
         ref={introRef as React.RefObject<HTMLDivElement>}
         className="reveal max-w-xl mb-20"
       >
-        <p className="text-xs tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
+        <p className="text-sm tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
           What's Covered
         </p>
         <h2
@@ -22,7 +22,7 @@ export default function Areas() {
           Every area of life<br />has a{' '}
           <em style={{ fontStyle: 'italic', color: 'var(--sage)' }}>place here.</em>
         </h2>
-        <p className="text-sm leading-loose" style={{ color: 'var(--text-dim)' }}>
+        <p className="text-md leading-loose" style={{ color: 'var(--text-dim)' }}>
           Most productivity tools only cover work. We built ours for the full picture — because you
           can't separate who you are from what you do.
         </p>

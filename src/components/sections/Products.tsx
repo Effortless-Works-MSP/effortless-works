@@ -45,7 +45,7 @@ export default function Products() {
         className="reveal flex flex-col md:flex-row md:items-end justify-between mb-16"
       >
         <div>
-          <p className="text-xs tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
+          <p className="text-sm tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
             The Shop
           </p>
           <h2
@@ -58,7 +58,7 @@ export default function Products() {
         </div>
         <a
           href="#"
-          className="mt-6 md:mt-0 text-sm tracking-wide flex items-center gap-2 no-underline after:content-['→'] transition-colors duration-200"
+          className="mt-6 md:mt-0 text-md tracking-wide flex items-center gap-2 no-underline after:content-['→'] transition-colors duration-200"
           style={{ color: 'var(--text-dim)' }}
           onMouseEnter={e => (e.currentTarget.style.color = 'var(--text)')}
           onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-dim)')}

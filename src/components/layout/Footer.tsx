@@ -17,7 +17,7 @@ export default function Footer() {
       style={{ borderTop: '1px solid var(--border)' }}
     >
       <div className="flex items-center gap-3">
-        <Logo size={28} />
+        <Logo size={30} />
         <span className="text-xs tracking-wide" style={{ color: 'var(--text-faint)' }}>
           © {new Date().getFullYear()} Effortless Works
         </span>

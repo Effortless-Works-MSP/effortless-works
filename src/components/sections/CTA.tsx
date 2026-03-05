@@ -22,7 +22,7 @@ export default function CTA() {
         ref={leftRef as React.RefObject<HTMLDivElement>}
         className="reveal px-16 py-20 flex flex-col justify-center"
       >
-        <p className="text-xs tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
+        <p className="text-sm tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
           Stay in the loop
         </p>
         <h2
@@ -32,7 +32,7 @@ export default function CTA() {
           New templates,{' '}
           <em style={{ fontStyle: 'italic', color: 'var(--sage)' }}>regularly.</em>
         </h2>
-        <p className="text-sm leading-loose max-w-sm" style={{ color: 'var(--text-dim)' }}>
+        <p className="text-md leading-loose max-w-sm" style={{ color: 'var(--text-dim)' }}>
           Join the list and be the first to know when new spreadsheets, Notion templates, and
           courses drop.
         </p>
@@ -62,7 +62,7 @@ export default function CTA() {
           </p>
         ) : (
           <>
-            <p className="text-sm leading-loose" style={{ color: 'var(--text-dim)' }}>
+            <p className="text-md leading-loose" style={{ color: 'var(--text-dim)' }}>
               No noise. Just new tools to help you stay organized — delivered to your inbox.
             </p>
             <div className="flex gap-3">
@@ -72,7 +72,7 @@ export default function CTA() {
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSubmit()}
-                className="flex-1 px-5 py-3.5 rounded-full text-sm outline-none transition-colors duration-200"
+                className="flex-1 px-5 py-3.5 rounded-full text-md outline-none transition-colors duration-200"
                 style={{
                   background: 'var(--surface2)',
                   border: '1px solid var(--border)',
@@ -84,7 +84,7 @@ export default function CTA() {
               />
               <button
                 onClick={handleSubmit}
-                className="px-6 py-3.5 rounded-full text-sm font-medium whitespace-nowrap transition-colors duration-200"
+                className="px-6 py-3.5 rounded-full text-md font-medium whitespace-nowrap transition-colors duration-200"
                 style={{ background: 'var(--sage)', color: 'var(--bg)', fontFamily: 'inherit' }}
                 onMouseEnter={e => (e.currentTarget.style.background = '#8fd4b4')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'var(--sage)')}
@@ -92,7 +92,7 @@ export default function CTA() {
                 Join the list
               </button>
             </div>
-            <p className="text-xs tracking-wide" style={{ color: 'var(--text-faint)' }}>
+            <p className="text-sm tracking-wide" style={{ color: 'var(--text-faint)' }}>
               Free to join. Unsubscribe anytime.
             </p>
           </>

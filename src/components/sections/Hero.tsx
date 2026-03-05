@@ -18,7 +18,7 @@ export default function Hero() {
       />
 
       <p
-        className="text-xs tracking-widest uppercase mb-7 opacity-0 animate-fade-up animation-delay-200"
+        className="text-sm tracking-widest uppercase mb-7 opacity-0 animate-fade-up animation-delay-200"
         style={{ color: 'var(--sage)' }}
       >
         Your whole life, organized
@@ -38,7 +38,7 @@ export default function Hero() {
       </h1>
 
       <p
-        className="mt-7 text-sm leading-loose max-w-md opacity-0 animate-fade-up animation-delay-600"
+        className="mt-7 text-md leading-loose max-w-md opacity-0 animate-fade-up animation-delay-600"
         style={{ color: 'var(--text-dim)' }}
       >
         Templates, spreadsheets, and courses for the person who is building something — in business, in life, and in faith.
