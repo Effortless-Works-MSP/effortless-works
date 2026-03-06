@@ -2,6 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import ParallaxStars from '@/components/ui/ParallaxStars'
 
 // ─── Full catalog derived from NAV_ITEMS ──────────────────────────────────────
 type ProductType = 'Google Sheets' | 'Notion' | 'Service' | 'Course' | 'Quest'
@@ -506,6 +507,7 @@ export default function ShopPage() {
 
   return (
     <main style={{ minHeight: '100vh', background: 'var(--bg, #0C0D0E)', color: 'var(--text, #E8E4DC)' }}>
+        <ParallaxStars count={100} />
 
       {/* ── Hero ── */}
       <section

@@ -6,6 +6,7 @@ import Footer from '@/components/layout/Footer'
 import PageWrapper from '@/components/ui/PageWrapper'
 import PageHero from '@/components/ui/PageHero'
 import { CONTACT_META } from '@/lib/pageData'
+import ParallaxStars from '@/components/ui/ParallaxStars'
 
 export default function ContactPage() {
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
@@ -24,6 +25,7 @@ export default function ContactPage() {
     <>
       <Navbar />
       <main style={{ minHeight: '100vh', background: '#0C0D0E' }}>
+        <ParallaxStars count={100} />
         <PageWrapper maxWidth={900}>
           <PageHero {...CONTACT_META} />
 

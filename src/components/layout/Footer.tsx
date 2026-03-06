@@ -5,8 +5,8 @@ import Logo from '@/components/ui/Logo'
 
 const FOOTER_LINKS = [
   { label: 'Shop', href: '#products' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: 'mailto:hello@effortlessworks.com' },
+  { label: 'About', href: '/info' },
+  { label: 'Contact', href: '/contact' },
   { label: 'Privacy', href: '/privacy' },
 ]
 

@@ -5,6 +5,7 @@ import PageWrapper from '@/components/ui/PageWrapper'
 import PageHero from '@/components/ui/PageHero'
 import ProductSectionBlock from '@/components/ui/ProductSectionBlock'
 import { INDIVIDUALS_META, INDIVIDUALS_SECTIONS } from '@/lib/pageData'
+import ParallaxStars from '@/components/ui/ParallaxStars'
 
 export const metadata: Metadata = {
   title: 'Personal Templates | Effortless Works',
@@ -15,7 +16,8 @@ export default function IndividualsPage() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: '#0C0D0E' }}>
+      <main style={{ minHeight: '100vh', background: '#0C0D0E', position: 'relative', overflow: 'hidden' }}>
+        <ParallaxStars count={100} />
         <PageWrapper>
           <PageHero {...INDIVIDUALS_META} />
           {INDIVIDUALS_SECTIONS.map((section, i) => (

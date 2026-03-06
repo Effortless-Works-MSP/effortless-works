@@ -15,6 +15,7 @@ import {
   P_INSTRUCTOR_SECTION,
 } from '@/lib/pageData'
 import type { ProductSection } from '@/types'
+import ParallaxStars from '@/components/ui/ParallaxStars'
 
 const COURSES_META = {
   eyebrow: 'All Courses',
@@ -97,7 +98,8 @@ export default function CoursesPage() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: '#0C0D0E' }}>
+      <main style={{ minHeight: '100vh', background: '#0C0D0E', position: 'relative', overflow: 'hidden' }}>
+        <ParallaxStars count={100} />
         <PageWrapper>
           <PageHero {...COURSES_META} />
 

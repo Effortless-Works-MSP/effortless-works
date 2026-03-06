@@ -4,6 +4,7 @@ import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import Link from 'next/link'
 import { useState } from 'react'
+import ParallaxStars from '@/components/ui/ParallaxStars'
 
 const PILLARS = [
   { icon: '🏆', title: 'Leaderboards & Rewards', description: 'Businesses and individuals compete in a real-life gamified system with weekly, monthly, and yearly rewards for top performers.' },
@@ -18,27 +19,8 @@ export default function QuestAboutPage() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: '#0C0D0E', color: '#E8E4DC', fontFamily: 'inherit' }}>
-      {/* Animated stars background */}
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
-        backgroundImage: `
-          radial-gradient(1px 1px at 15% 25%, rgba(123,191,160,0.4) 0%, transparent 100%),
-          radial-gradient(1px 1px at 80% 10%, rgba(232,228,220,0.3) 0%, transparent 100%),
-          radial-gradient(1px 1px at 45% 60%, rgba(123,191,160,0.3) 0%, transparent 100%),
-          radial-gradient(1px 1px at 90% 75%, rgba(232,228,220,0.2) 0%, transparent 100%),
-          radial-gradient(1px 1px at 30% 90%, rgba(123,191,160,0.25) 0%, transparent 100%),
-          linear-gradient(rgba(123,191,160,0.02) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(123,191,160,0.02) 1px, transparent 1px)
-        `,
-        backgroundSize: 'auto, auto, auto, auto, auto, 48px 48px, 48px 48px',
-      }} />
-      <div style={{
-        position: 'fixed', top: '-10%', left: '50%', transform: 'translateX(-50%)',
-        width: 900, height: 600,
-        background: 'radial-gradient(ellipse, rgba(123,191,160,0.08) 0%, transparent 60%)',
-        pointerEvents: 'none', zIndex: 0,
-      }} />
+      <main style={{ minHeight: '100vh', background: '#0C0D0E', color: '#E8E4DC', fontFamily: 'inherit' , position: 'relative', overflow: 'hidden' }}>
+        <ParallaxStars count={100} />
 
       <div style={{ position: 'relative', zIndex: 1, maxWidth: 960, margin: '0 auto', padding: '56px 40px 100px' }}>
 

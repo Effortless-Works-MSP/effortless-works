@@ -1,12 +1,16 @@
 'use client'
 
 import Link from 'next/link'
+import HeroIllustration from './HeroIllustration'
+import ParallaxStars from '@/components/ui/ParallaxStars'
 
 export default function Hero() {
   return (
     <section
       className="relative min-h-screen flex flex-col justify-center px-16 overflow-hidden"
     >
+      <ParallaxStars count={200} />
+      <HeroIllustration /> 
       {/* ambient glow */}
       <div
         className="pointer-events-none absolute"

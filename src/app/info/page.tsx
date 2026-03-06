@@ -3,12 +3,14 @@ import Footer from '@/components/layout/Footer'
 import PageWrapper from '@/components/ui/PageWrapper'
 import PageHero from '@/components/ui/PageHero'
 import { INFO_META } from '@/lib/pageData'
+import ParallaxStars from '@/components/ui/ParallaxStars'
 
 export default function InfoPage() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: '#0C0D0E' }}>
+      <main style={{ minHeight: '100vh', background: '#0C0D0E', position: 'relative', overflow: 'hidden' }}>
+        <ParallaxStars count={100} />
         <PageWrapper maxWidth={900}>
           <PageHero {...INFO_META} />
 

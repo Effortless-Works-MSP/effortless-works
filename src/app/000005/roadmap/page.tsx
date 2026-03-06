@@ -3,6 +3,7 @@
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import Link from 'next/link'
+import ParallaxStars from '@/components/ui/ParallaxStars'
 
 const ROADMAP = [
   {
@@ -80,12 +81,8 @@ export default function QuestRoadmapPage() {
   return (
     <>
       <Navbar />
-      <main style={{ minHeight: '100vh', background: '#0C0D0E', color: '#E8E4DC', fontFamily: 'inherit' }}>
-      <div style={{
-        position: 'fixed', inset: 0, zIndex: 0, pointerEvents: 'none',
-        backgroundImage: `linear-gradient(rgba(123,191,160,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(123,191,160,0.025) 1px, transparent 1px)`,
-        backgroundSize: '48px 48px',
-      }} />
+      <main style={{ minHeight: '100vh', background: '#0C0D0E', color: '#E8E4DC', fontFamily: 'inherit' , position: 'relative', overflow: 'hidden' }}>
+        <ParallaxStars count={100} />
 
       <div style={{ position: 'relative', zIndex: 1, maxWidth: 800, margin: '0 auto', padding: '56px 40px 100px' }}>
 

@@ -7,19 +7,45 @@ import Products from '@/components/sections/Products'
 import Areas from '@/components/sections/Areas'
 import Quote from '@/components/sections/Quote'
 import CTA from '@/components/sections/CTA'
+import ParallaxStars from '@/components/ui/ParallaxStars'
 
 export default function Home() {
   return (
     <>
       <Navbar />
       <main>
+        {/* Hero — no stars */}
         <Hero />
-        <Marquee />
-        <About />
-        <Products />
-        <Areas />
-        <Quote />
-        <CTA />
+
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <ParallaxStars count={80} />
+          <Marquee />
+        </div>
+
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <ParallaxStars count={110} />
+          <About />
+        </div>
+
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <ParallaxStars count={110} />
+          <Products />
+        </div>
+
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <ParallaxStars count={110} />
+          <Areas />
+        </div>
+
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <ParallaxStars count={90} />
+          <Quote />
+        </div>
+
+        <div style={{ position: 'relative', overflow: 'hidden' }}>
+          <ParallaxStars count={90} />
+          <CTA />
+        </div>
       </main>
       <Footer />
     </>
