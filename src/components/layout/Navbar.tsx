@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { NAV_ITEMS } from '@/lib/navData'
 import type { NavItem } from '@/lib/navData'
 import Logo from '@/components/ui/Logo'
+import GetStartedChat from '@/components/GetStartedChat'
 
 // ─── Floating Bubble Box ─────────────────────────────────────
 const BUBBLE_VARIANTS = [
@@ -358,6 +359,7 @@ export default function Navbar() {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [chatOpen, setChatOpen] = useState(false)
   const navRef = useRef<HTMLElement>(null)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const pathname = usePathname()
@@ -374,6 +376,7 @@ export default function Navbar() {
   useEffect(() => {
     setActiveDropdown(null)
     setMobileOpen(false)
+    setChatOpen(false)
   }, [pathname])
 
   useEffect(() => {
@@ -475,17 +478,21 @@ export default function Navbar() {
 
           {/* ── Right side ── */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
-            <Link href="/000002/contact" className="ew-cta-btn" style={{
-              alignItems: 'center',
-              padding: '9px 22px', borderRadius: 100,
-              border: '1px solid #7BBFA0',
-              color: '#7BBFA0', fontSize: 12, letterSpacing: '0.08em',
-              textDecoration: 'none',
-              transition: 'background 0.2s, color 0.2s',
-            }}
+            <button
+              onClick={() => setChatOpen(true)}
+              className="ew-cta-btn"
+              style={{
+                alignItems: 'center',
+                padding: '9px 22px', borderRadius: 100,
+                border: '1px solid #7BBFA0',
+                color: '#7BBFA0', fontSize: 12, letterSpacing: '0.08em',
+                background: 'transparent',
+                cursor: 'pointer', fontFamily: 'inherit',
+                transition: 'background 0.2s, color 0.2s',
+              }}
             >
               Get Started
-            </Link>
+            </button>
 
             {/* Hamburger */}
             <button onClick={() => setMobileOpen(true)} aria-label="Open menu" className="ew-hamburger"
@@ -503,6 +510,8 @@ export default function Navbar() {
       </header>
 
       <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+
+      <GetStartedChat open={chatOpen} onClose={() => setChatOpen(false)} />
 
       {/* Height spacer */}
       <div style={{ height: 68 }} />
