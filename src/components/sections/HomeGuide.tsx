@@ -264,6 +264,7 @@ function Carousel({ choices, onSelect }: CarouselProps) {
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
   const descRef = useRef<HTMLParagraphElement | null>(null)
   const activeIdxRef = useRef(0)
+  const touchStartX = useRef<number | null>(null)
 
   // Apply positions directly to DOM for smooth animation without React re-renders
   function applyPositions(rot: number) {
@@ -367,10 +368,28 @@ function Carousel({ choices, onSelect }: CarouselProps) {
     onSelect(choices[cur])
   }
 
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    if (Math.abs(dx) > 40) {
+      if (dx > 0) goLeft()
+      else goRight()
+    }
+    touchStartX.current = null
+  }
+
   return (
     <div style={{ userSelect: 'none' }}>
       {/* ── Stage ── */}
-      <div style={{ position: 'relative', height: 340 }}>
+      <div
+        style={{ position: 'relative', height: 340 }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
 
         {/* Ellipse platform */}
         <div style={{
@@ -399,8 +418,8 @@ function Carousel({ choices, onSelect }: CarouselProps) {
           aria-label="Previous"
           style={{
             position: 'absolute', zIndex: 200,
-            left: '50%', top: '50%',
-            transform: 'translate(calc(-50% - 300px), -50%)',
+            left: 8, top: '50%',
+            transform: 'translateY(-50%)',
             width: 46, height: 46, borderRadius: '50%',
             background: 'rgba(255,255,255,0.03)',
             border: '1px solid rgba(255,255,255,0.09)',
@@ -421,8 +440,8 @@ function Carousel({ choices, onSelect }: CarouselProps) {
           aria-label="Next"
           style={{
             position: 'absolute', zIndex: 200,
-            left: '50%', top: '50%',
-            transform: 'translate(calc(-50% + 300px), -50%)',
+            right: 8, top: '50%',
+            transform: 'translateY(-50%)',
             width: 46, height: 46, borderRadius: '50%',
             background: 'rgba(255,255,255,0.03)',
             border: '1px solid rgba(255,255,255,0.09)',
