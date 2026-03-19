@@ -298,7 +298,7 @@ function MobileCarousel({ choices, onSelect }: CarouselProps) {
 
       {/* Card area */}
       <div
-        style={{ position: 'relative', padding: '0 56px', minHeight: 220 }}
+        style={{ position: 'relative', padding: '0 56px', height: 220 }}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}
       >
@@ -313,6 +313,8 @@ function MobileCarousel({ choices, onSelect }: CarouselProps) {
             background: 'linear-gradient(155deg, rgba(123,191,160,0.12) 0%, rgba(123,191,160,0.03) 100%)',
             border: '1px solid rgba(123,191,160,0.3)',
             borderRadius: 24,
+            height: 220, boxSizing: 'border-box',
+            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
           }}
         >
           <div style={{ fontSize: 56, color: '#7BBFA0', lineHeight: 1, marginBottom: 16 }}>{choice.symbol}</div>
