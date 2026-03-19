@@ -259,7 +259,7 @@ export const BUILD_META: PageMeta = {
   title: 'Build something',
   subtitle: 'made for you.',
   description:
-    "Need something custom? I'll build it for you — websites, apps, onboarding flows, Notion systems, or Google Sheets setups tailored to your exact needs.",
+    "Need something custom? I'll build it for you — websites, apps, Notion systems, or Google Sheets setups tailored to your exact needs.",
 }
 
 export const BUILD_SERVICES = [
@@ -268,7 +268,7 @@ export const BUILD_SERVICES = [
     icon: '⬡',
     name: 'Website Builder',
     description: "A fully designed, production-ready website built to your brand and requirements. From landing pages to multi-page sites.",
-    href: '/000008/website',
+    href: 'https://www.fiverr.com/s/zWw3REe',
     tags: ['Next.js', 'Custom Design', 'SEO Ready'],
     cta: 'Request on Fiverr',
   },
@@ -277,17 +277,8 @@ export const BUILD_SERVICES = [
     icon: '◈',
     name: 'App Builder',
     description: 'Custom web applications tailored to your business workflow — dashboards, portals, tools.',
-    href: '/000008/app',
+    href: 'https://www.fiverr.com/s/jjzVZzw',
     tags: ['Web App', 'Dashboard', 'Custom'],
-    cta: 'Request on Fiverr',
-  },
-  {
-    id: 'onboarding',
-    icon: '◎',
-    name: 'Onboarding Builder',
-    description: 'A guided onboarding experience for your clients or team — structured, professional, and on-brand.',
-    href: '/000008/onboarding',
-    tags: ['Client Experience', 'Courses', 'Automation'],
     cta: 'Request on Fiverr',
   },
   {
@@ -295,7 +286,7 @@ export const BUILD_SERVICES = [
     icon: '▦',
     name: 'Custom Google Sheets',
     description: 'A personalized Google Sheets system built around how your business actually works.',
-    href: '/000008/sheets',
+    href: 'https://www.fiverr.com/s/1qlNwDK',
     tags: ['Google Sheets', 'Automation', 'Tailored'],
     cta: 'Request on Fiverr',
   },
@@ -304,7 +295,7 @@ export const BUILD_SERVICES = [
     icon: '❖',
     name: 'Custom Notion Workspace',
     description: 'A complete Notion setup designed specifically for your life, team, or business.',
-    href: '/000008/notion',
+    href: 'https://www.fiverr.com/s/VYl34AV',
     tags: ['Notion', 'Workspace', 'Tailored'],
     cta: 'Request on Fiverr',
   },

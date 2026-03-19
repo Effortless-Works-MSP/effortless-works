@@ -104,7 +104,6 @@ export const NAV_ITEMS: NavItem[] = [
           items: [
             { label: 'Website Builder', href: '/build-your-own', description: 'Custom website build', tags: ['Design', 'Development', 'Launch'] },
             { label: 'App Builder', href: '/build-your-own', description: 'Custom app build', tags: ['Mobile', 'Web App', 'Custom'] },
-            { label: 'Onboarding Builder', href: '/build-your-own', description: 'Streamline client or new hire onboarding', tags: ['Client', 'New Hire', 'Courses'] },
             { label: 'Custom Google Sheets', href: '/build-your-own', description: 'Custom tracking system solutions', tags: ['Tracking', 'Automation', 'Templates'] },
             { label: 'Custom Notion Templates', href: '/build-your-own', description: 'Custom Notion workspaces', tags: ['Workspace', 'Templates', 'Systems'] },
           ],

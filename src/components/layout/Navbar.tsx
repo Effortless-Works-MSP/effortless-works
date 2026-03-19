@@ -215,7 +215,7 @@ function DropdownPanel({ item, onClose }: { item: NavItem; onClose: () => void }
   )
 }
 
-function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
+function MobileMenu({ open, onClose, onGetStarted }: { open: boolean; onClose: () => void; onGetStarted: () => void }) {
   const [expanded, setExpanded] = useState<string | null>(null)
 
   useEffect(() => {
@@ -339,15 +339,15 @@ function MobileMenu({ open, onClose }: { open: boolean; onClose: () => void }) {
 
         {/* Drawer footer CTA */}
         <div style={{ padding: '20px 24px', borderTop: '1px solid rgba(255,255,255,0.07)', flexShrink: 0 }}>
-          <Link href="/000002/contact" onClick={onClose} style={{
-            display: 'block', textAlign: 'center',
+          <button onClick={() => { onClose(); onGetStarted() }} style={{
+            display: 'block', width: '100%', textAlign: 'center',
             padding: '13px', borderRadius: 100,
             background: '#7BBFA0', color: '#0C0D0E',
             fontSize: 13, fontWeight: 500, letterSpacing: '0.08em',
-            textDecoration: 'none',
+            border: 'none', cursor: 'pointer', fontFamily: 'inherit',
           }}>
             Get Started
-          </Link>
+          </button>
         </div>
       </div>
     </>
@@ -509,7 +509,7 @@ export default function Navbar() {
         </div>
       </header>
 
-      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <MobileMenu open={mobileOpen} onClose={() => setMobileOpen(false)} onGetStarted={() => setChatOpen(true)} />
 
       <GetStartedChat open={chatOpen} onClose={() => setChatOpen(false)} />
 

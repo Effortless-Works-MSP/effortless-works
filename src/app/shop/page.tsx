@@ -241,17 +241,6 @@ const CATALOG: CatalogItem[] = [
     priceLabel: 'Custom',
   },
   {
-    id: 'byo-onboarding',
-    name: 'Onboarding Builder',
-    description: 'Streamline client or new hire onboarding with a custom-built flow — courses, checklists, and portals.',
-    type: 'Service',
-    category: 'Build Your Own',
-    subcategory: 'Build Your Own',
-    href: '/build-your-own',
-    tags: ['Client', 'New Hire', 'Courses'],
-    priceLabel: 'Custom',
-  },
-  {
     id: 'byo-sheets',
     name: 'Custom Google Sheets',
     description: 'A bespoke tracking system built in Google Sheets around your unique data, workflows, and automation needs.',

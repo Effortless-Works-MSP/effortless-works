@@ -45,7 +45,7 @@ export default function Hero() {
         className="mt-7 text-md leading-loose max-w-md opacity-0 animate-fade-up animation-delay-600"
         style={{ color: 'var(--text-dim)' }}
       >
-        Templates, spreadsheets, and courses for the person who is building something — in business, in life, and in faith.
+        Templates, spreadsheets, and courses for the person who is building something — in business, in life, family and faith.
       </p>
 
       <div className="mt-11 flex gap-4 items-center opacity-0 animate-fade-up animation-delay-800">
@@ -62,7 +62,7 @@ export default function Hero() {
             e.currentTarget.style.transform = 'translateY(0)'
           }}
         >
-          Browse the Shop
+          Help Me Build My Dreams
         </Link>
         <Link
           href="#about"

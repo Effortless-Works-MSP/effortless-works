@@ -208,7 +208,7 @@ const NODE_MAP = Object.fromEntries(TREE.map(n => [n.id, n]))
 
 // ─── Result card ──────────────────────────────────────────────────────────────
 
-function ResultCard({ result }: { result: Result }) {
+function ResultCard({ result, onClose }: { result: Result; onClose: () => void }) {
   const tagColors: Record<string, string> = {
     Business: '#7BBFA0', Individuals: '#7BBFA0',
     Course: '#FFC864', Service: 'rgba(232,228,220,0.6)',
@@ -216,7 +216,7 @@ function ResultCard({ result }: { result: Result }) {
   const color = tagColors[result.tag] ?? '#7BBFA0'
 
   return (
-    <Link href={result.href} style={{ textDecoration: 'none', display: 'block' }}>
+    <Link href={result.href} onClick={onClose} style={{ textDecoration: 'none', display: 'block' }}>
       <div
         style={{
           padding: '16px 20px',
@@ -448,7 +448,7 @@ export default function GetStartedChat({ open, onClose }: GetStartedChatProps) {
                 Click any card to go to that page and see everything it includes.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {results.map(r => <ResultCard key={r.href} result={r} />)}
+                {results.map(r => <ResultCard key={r.href} result={r} onClose={handleClose} />)}
               </div>
 
               {/* Start over */}

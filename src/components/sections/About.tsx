@@ -72,7 +72,7 @@ export default function About() {
 
         <p className="text-md leading-loose mb-5 max-w-md" style={{ color: 'var(--text-dim)' }}>
           You're not just running a business. You're also working on yourself — your health, your
-          relationships, maybe your faith. And you're doing it all at the same time.
+          relationships, your family, maybe your faith. And you're doing it all at the same time.
         </p>
         <p className="text-md leading-loose mb-8 max-w-md" style={{ color: 'var(--text-dim)' }}>
           Effortless Works exists to give every part of your life a home. Not a system that
