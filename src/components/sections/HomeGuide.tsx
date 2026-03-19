@@ -253,7 +253,114 @@ interface CarouselProps {
   onSelect: (c: Choice) => void
 }
 
-function Carousel({ choices, onSelect }: CarouselProps) {
+// ─── Mobile carousel (flat, one card at a time) ───────────────────────────────
+
+function MobileCarousel({ choices, onSelect }: CarouselProps) {
+  const N = choices.length
+  const [idx, setIdx] = useState(0)
+  const [dir, setDir] = useState(0) // -1 left, 1 right, for animation
+  const [animKey, setAnimKey] = useState(0)
+  const touchStartX = useRef<number | null>(null)
+
+  function go(next: number) {
+    const d = next > idx ? 1 : -1
+    setDir(d)
+    setIdx(next)
+    setAnimKey(k => k + 1)
+  }
+  function prev() { go((idx - 1 + N) % N) }
+  function next() { go((idx + 1) % N) }
+
+  function handleTouchStart(e: React.TouchEvent) { touchStartX.current = e.touches[0].clientX }
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return
+    const dx = e.changedTouches[0].clientX - touchStartX.current
+    if (Math.abs(dx) > 40) { if (dx > 0) prev(); else next() }
+    touchStartX.current = null
+  }
+
+  const choice = choices[idx]
+  const arrowStyle: React.CSSProperties = {
+    position: 'absolute', top: '50%', transform: 'translateY(-50%)',
+    width: 44, height: 44, borderRadius: '50%',
+    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.09)',
+    color: 'rgba(232,228,220,0.45)', fontSize: 18, cursor: 'pointer',
+    display: 'flex', alignItems: 'center', justifyContent: 'center',
+    fontFamily: 'inherit', zIndex: 10,
+  }
+
+  return (
+    <div style={{ userSelect: 'none' }}>
+      <style>{`
+        @keyframes mob-slide-in-r { from { opacity: 0; transform: translateX(40px) } to { opacity: 1; transform: translateX(0) } }
+        @keyframes mob-slide-in-l { from { opacity: 0; transform: translateX(-40px) } to { opacity: 1; transform: translateX(0) } }
+      `}</style>
+
+      {/* Card area */}
+      <div
+        style={{ position: 'relative', padding: '0 56px', minHeight: 220 }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <button onClick={prev} style={{ ...arrowStyle, left: 0 }}>←</button>
+        <button onClick={next} style={{ ...arrowStyle, right: 0 }}>→</button>
+
+        <div
+          key={animKey}
+          style={{
+            animation: `${dir >= 0 ? 'mob-slide-in-r' : 'mob-slide-in-l'} 0.22s ease`,
+            textAlign: 'center', padding: '28px 16px 20px',
+            background: 'linear-gradient(155deg, rgba(123,191,160,0.12) 0%, rgba(123,191,160,0.03) 100%)',
+            border: '1px solid rgba(123,191,160,0.3)',
+            borderRadius: 24,
+          }}
+        >
+          <div style={{ fontSize: 56, color: '#7BBFA0', lineHeight: 1, marginBottom: 16 }}>{choice.symbol}</div>
+          <p style={{
+            fontFamily: 'Cormorant Garamond, serif', fontWeight: 300,
+            fontSize: 26, color: '#E8E4DC', margin: '0 0 12px', lineHeight: 1.15,
+          }}>{choice.label}</p>
+          <p style={{ fontSize: 13, color: 'rgba(232,228,220,0.45)', margin: 0, lineHeight: 1.75 }}>
+            {choice.description}
+          </p>
+        </div>
+      </div>
+
+      {/* Dot indicators */}
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 20 }}>
+        {choices.map((_, i) => (
+          <button
+            key={i} onClick={() => go(i)}
+            style={{
+              width: i === idx ? 22 : 6, height: 6, borderRadius: 3, padding: 0, border: 'none',
+              background: i === idx ? '#7BBFA0' : 'rgba(255,255,255,0.15)',
+              cursor: 'pointer', transition: 'all 0.2s',
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Confirm */}
+      <div style={{ textAlign: 'center', marginTop: 32 }}>
+        <button
+          onClick={() => onSelect(choice)}
+          style={{
+            padding: '13px 48px', borderRadius: 100,
+            background: '#7BBFA0', color: '#0C0D0E',
+            border: 'none', fontSize: 13, fontWeight: 500,
+            letterSpacing: '0.08em', cursor: 'pointer', fontFamily: 'inherit',
+          }}
+        >
+          Choose this →
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// ─── Desktop 3D carousel ──────────────────────────────────────────────────────
+
+function DesktopCarousel({ choices, onSelect }: CarouselProps) {
   const N = choices.length
   const step = 360 / N
 
@@ -557,6 +664,18 @@ function Carousel({ choices, onSelect }: CarouselProps) {
       </div>
     </div>
   )
+}
+
+function Carousel({ choices, onSelect }: CarouselProps) {
+  const [isMobile, setIsMobile] = useState(false)
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+  if (isMobile) return <MobileCarousel choices={choices} onSelect={onSelect} />
+  return <DesktopCarousel choices={choices} onSelect={onSelect} />
 }
 
 // ─── Result card ──────────────────────────────────────────────────────────────
