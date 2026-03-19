@@ -324,7 +324,7 @@ function Carousel({ choices, onSelect }: CarouselProps) {
     const tick = () => {
       const diff = targetRef.current - rotRef.current
       if (Math.abs(diff) > 0.05) {
-        rotRef.current += diff * 0.1
+        rotRef.current += diff * 0.2
         applyPositions(rotRef.current)
       }
       frameRef.current = requestAnimationFrame(tick)
