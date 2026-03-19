@@ -176,36 +176,27 @@ export default function HeroIllustration() {
   }, [])
 
   return (
-    <>
+    <div
+      aria-hidden="true"
+      className="hidden md:block"
+      style={{ position: 'absolute', inset: 0, pointerEvents: 'none' }}
+    >
       <canvas
         ref={canvasRef}
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          pointerEvents: 'none',
-        }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}
       />
       <div
-        aria-hidden="true"
         style={{
-          position: 'absolute',
-          inset: 0,
+          position: 'absolute', inset: 0, pointerEvents: 'none',
           background: 'linear-gradient(to right, var(--bg) 26%, rgba(0,0,0,0.15) 52%, transparent 70%)',
-          pointerEvents: 'none',
         }}
       />
       <div
-        aria-hidden="true"
         style={{
-          position: 'absolute',
-          inset: 0,
+          position: 'absolute', inset: 0, pointerEvents: 'none',
           background: 'linear-gradient(to bottom, var(--bg) 0%, transparent 10%, transparent 88%, var(--bg) 100%)',
-          pointerEvents: 'none',
         }}
       />
-    </>
+    </div>
   )
 }

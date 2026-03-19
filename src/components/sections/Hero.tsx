@@ -7,7 +7,7 @@ import ParallaxStars from '@/components/ui/ParallaxStars'
 export default function Hero() {
   return (
     <section
-      className="relative min-h-screen flex flex-col justify-center px-16 overflow-hidden"
+      className="relative min-h-screen flex flex-col justify-center px-6 md:px-16 overflow-hidden"
     >
       <ParallaxStars count={200} />
       <HeroIllustration /> 
@@ -22,16 +22,16 @@ export default function Hero() {
       />
 
       <p
-        className="text-sm tracking-widest uppercase mb-7 opacity-0 animate-fade-up animation-delay-200"
+        className="text-sm tracking-widest uppercase mb-7 opacity-0 animate-fade-up animation-delay-200 text-center md:text-left"
         style={{ color: 'var(--sage)' }}
       >
         Your whole life, organized
       </p>
 
       <h1
-        className="font-serif font-light leading-tight opacity-0 animate-fade-up animation-delay-400"
+        className="font-serif font-light leading-tight opacity-0 animate-fade-up animation-delay-400 text-center md:text-left"
         style={{
-          fontSize: 'clamp(52px, 7vw, 96px)',
+          fontSize: 'clamp(40px, 7vw, 96px)',
           color: 'var(--text)',
           maxWidth: 780,
           letterSpacing: '-0.01em',
@@ -42,13 +42,13 @@ export default function Hero() {
       </h1>
 
       <p
-        className="mt-7 text-md leading-loose max-w-md opacity-0 animate-fade-up animation-delay-600"
+        className="mt-7 text-md leading-loose max-w-md opacity-0 animate-fade-up animation-delay-600 text-center md:text-left mx-auto md:mx-0"
         style={{ color: 'var(--text-dim)' }}
       >
         Templates, spreadsheets, and courses for the person who is building something — in business, in life, family and faith.
       </p>
 
-      <div className="mt-11 flex gap-4 items-center opacity-0 animate-fade-up animation-delay-800">
+      <div className="mt-11 flex gap-4 items-center opacity-0 animate-fade-up animation-delay-800 justify-center md:justify-start">
         <Link
           href="#products"
           className="px-8 py-3.5 rounded-full text-sm font-medium tracking-wide transition-all duration-200 no-underline"
@@ -76,7 +76,7 @@ export default function Hero() {
       </div>
 
       <div
-        className="absolute bottom-10 left-16 text-xs tracking-widest uppercase flex items-center gap-3 opacity-0 animate-fade-up animation-delay-1200"
+        className="absolute bottom-10 left-6 md:left-16 text-xs tracking-widest uppercase flex items-center gap-3 opacity-0 animate-fade-up animation-delay-1200"
         style={{ color: 'var(--text-faint)' }}
       >
         <span className="block w-10 h-px" style={{ background: 'var(--text-faint)' }} />
