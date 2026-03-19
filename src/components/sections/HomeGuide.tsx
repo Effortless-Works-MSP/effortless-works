@@ -261,7 +261,11 @@ function Carousel({ choices, onSelect }: CarouselProps) {
   const rotRef = useRef(0)          // current visual rotation (degrees)
   const targetRef = useRef(0)       // target rotation
   const frameRef = useRef<number>()
+  const animatingRef = useRef(false)
   const itemRefs = useRef<(HTMLDivElement | null)[]>([])
+  const symRefs  = useRef<(HTMLElement | null)[]>([])
+  const lblRefs  = useRef<(HTMLElement | null)[]>([])
+  const glowRefs = useRef<(HTMLElement | null)[]>([])
   const descRef = useRef<HTMLParagraphElement | null>(null)
   const activeIdxRef = useRef(0)
   const touchStartX = useRef<number | null>(null)
@@ -282,17 +286,17 @@ function Carousel({ choices, onSelect }: CarouselProps) {
       }
     }
 
-    choices.forEach((_, i) => {
+    for (let i = 0; i < N; i++) {
       const el = itemRefs.current[i]
-      if (!el) return
+      if (!el) continue
 
       const angleDeg = (i * step) + rot
       const rad = (angleDeg * Math.PI) / 180
       const x = Math.sin(rad) * RADIUS_X
-      const depth = Math.cos(rad)                       // -1 (back) → +1 (front)
+      const depth = Math.cos(rad)
       const y = -depth * Y_TILT
-      const t = (depth + 1) / 2                         // 0 → 1
-      const scale = 0.48 + t * 0.58                     // 0.48 → 1.06
+      const t = (depth + 1) / 2
+      const scale = 0.48 + t * 0.58
       const opacity = depth < -0.65 ? 0 : 0.22 + t * 0.78
       const zIndex = Math.round(t * 100)
       const isActive = i === activeIdx
@@ -306,36 +310,47 @@ function Carousel({ choices, onSelect }: CarouselProps) {
       el.style.borderColor = isActive ? 'rgba(123,191,160,0.38)' : 'rgba(255,255,255,0.06)'
       el.style.boxShadow = isActive ? '0 24px 64px rgba(0,0,0,0.45)' : 'none'
 
-      const sym = el.querySelector<HTMLElement>('.car-sym')
+      const sym = symRefs.current[i]
       if (sym) sym.style.color = isActive ? '#7BBFA0' : 'rgba(232,228,220,0.22)'
 
-      const lbl = el.querySelector<HTMLElement>('.car-lbl')
+      const lbl = lblRefs.current[i]
       if (lbl) lbl.style.color = isActive ? '#E8E4DC' : 'rgba(232,228,220,0.38)'
 
-      const glow = el.querySelector<HTMLElement>('.car-glow')
+      const glow = glowRefs.current[i]
       if (glow) glow.style.background = isActive
         ? 'linear-gradient(90deg, transparent, rgba(123,191,160,0.55), transparent)'
         : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)'
-    })
+    }
   }
 
-  // rAF loop — eases rotRef toward targetRef
-  useEffect(() => {
+  function startRaf() {
+    if (animatingRef.current) return
+    animatingRef.current = true
     const tick = () => {
       const diff = targetRef.current - rotRef.current
       if (Math.abs(diff) > 0.05) {
         rotRef.current += diff * 0.2
         applyPositions(rotRef.current)
+        frameRef.current = requestAnimationFrame(tick)
+      } else {
+        rotRef.current = targetRef.current
+        applyPositions(rotRef.current)
+        animatingRef.current = false
       }
-      frameRef.current = requestAnimationFrame(tick)
     }
     frameRef.current = requestAnimationFrame(tick)
+  }
+
+  // rAF loop — starts on demand, stops when done
+  useEffect(() => {
     return () => { if (frameRef.current) cancelAnimationFrame(frameRef.current) }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [choices])
 
   // Reset when choices change (new step)
   useEffect(() => {
+    if (frameRef.current) cancelAnimationFrame(frameRef.current)
+    animatingRef.current = false
     rotRef.current = 0
     targetRef.current = 0
     activeIdxRef.current = 0
@@ -347,8 +362,8 @@ function Carousel({ choices, onSelect }: CarouselProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [choices])
 
-  function goLeft()  { targetRef.current += step }
-  function goRight() { targetRef.current -= step }
+  function goLeft()  { targetRef.current += step; startRaf() }
+  function goRight() { targetRef.current -= step; startRaf() }
 
   function clickItem(i: number) {
     const cur = Math.round(-targetRef.current / step + N * 1000) % N
@@ -361,6 +376,7 @@ function Carousel({ choices, onSelect }: CarouselProps) {
     const bck = ((cur - i) + N) % N
     if (fwd <= bck) targetRef.current -= fwd * step
     else             targetRef.current += bck * step
+    startRaf()
   }
 
   function confirmActive() {
@@ -376,8 +392,8 @@ function Carousel({ choices, onSelect }: CarouselProps) {
     if (touchStartX.current === null) return
     const dx = e.changedTouches[0].clientX - touchStartX.current
     if (Math.abs(dx) > 40) {
-      if (dx > 0) goLeft()
-      else goRight()
+      if (dx > 0) { targetRef.current += step; startRaf() }
+      else         { targetRef.current -= step; startRaf() }
     }
     touchStartX.current = null
   }
@@ -476,17 +492,17 @@ function Carousel({ choices, onSelect }: CarouselProps) {
                 alignItems: 'center', justifyContent: 'center',
                 gap: 14, padding: '24px 18px',
                 overflow: 'hidden',
-                // initial positions set by first applyPositions call via useEffect
+                willChange: 'transform, opacity',
               }}
             >
               {/* Top edge glow */}
-              <div className="car-glow" style={{
+              <div ref={el => { glowRefs.current[i] = el }} style={{
                 position: 'absolute', top: 0, left: '18%', right: '18%', height: 1,
                 pointerEvents: 'none',
               }} />
 
               {/* Symbol */}
-              <div className="car-sym" style={{
+              <div ref={el => { symRefs.current[i] = el }} style={{
                 fontSize: 50, lineHeight: 1,
                 fontFamily: 'inherit',
                 transition: 'color 0.25s',
@@ -495,7 +511,7 @@ function Carousel({ choices, onSelect }: CarouselProps) {
               </div>
 
               {/* Label */}
-              <p className="car-lbl" style={{
+              <p ref={el => { lblRefs.current[i] = el }} style={{
                 fontFamily: 'Cormorant Garamond, serif',
                 fontSize: 16, fontWeight: 400,
                 margin: 0, textAlign: 'center', lineHeight: 1.3,
