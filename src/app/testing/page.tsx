@@ -128,7 +128,7 @@ function makeBead(radius: number, intensity: number, opacity = 1) {
 // ─── Canvas wrapper ───────────────────────────────────────────────────────────
 
 function Canvas({ mountRef, label }: {
-  mountRef: React.RefObject<HTMLDivElement | null>
+  mountRef: React.RefObject<HTMLDivElement>
   label: string
 }) {
   return (
