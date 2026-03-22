@@ -47,8 +47,9 @@ function TypeIcon({ type }: { type: Product['type'] }) {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { available, launchMonth, featured, type, name, description, price, tags, href } = product
+  const hasPage = href && href !== '#'
 
-  return (
+  const inner = (
     <div style={{
       background: featured
         ? 'linear-gradient(145deg, #182820 0%, #131416 60%)'
@@ -63,9 +64,12 @@ export default function ProductCard({ product }: ProductCardProps) {
       overflow: 'hidden',
       opacity: available ? 1 : 0.75,
       transition: 'transform 0.25s ease, border-color 0.25s ease',
+      cursor: hasPage ? 'pointer' : 'default',
+      height: '100%',
+      boxSizing: 'border-box' as const,
     }}
       onMouseEnter={e => {
-        if (available) {
+        if (hasPage || available) {
           e.currentTarget.style.transform = 'translateY(-4px)'
           e.currentTarget.style.borderColor = 'rgba(123,191,160,0.35)'
         }
@@ -168,18 +172,22 @@ export default function ProductCard({ product }: ProductCardProps) {
         )}
 
         {available ? (
-          <Link href={href} style={{
+          <span style={{
             padding: '9px 20px', borderRadius: 100,
             background: '#7BBFA0', color: '#0C0D0E',
             fontSize: 12, fontWeight: 500, letterSpacing: '0.08em',
-            textDecoration: 'none',
-            transition: 'background 0.2s',
-          }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#8fd4b4')}
-            onMouseLeave={e => (e.currentTarget.style.background = '#7BBFA0')}
-          >
+          }}>
             Get it →
-          </Link>
+          </span>
+        ) : hasPage ? (
+          <span style={{
+            padding: '9px 20px', borderRadius: 100,
+            border: '1px solid rgba(123,191,160,0.2)',
+            fontSize: 12, color: 'rgba(123,191,160,0.6)',
+            letterSpacing: '0.08em',
+          }}>
+            View details →
+          </span>
         ) : (
           <span style={{
             padding: '9px 20px', borderRadius: 100,
@@ -193,4 +201,14 @@ export default function ProductCard({ product }: ProductCardProps) {
       </div>
     </div>
   )
+
+  if (hasPage) {
+    return (
+      <Link href={href} style={{ textDecoration: 'none', display: 'block' }}>
+        {inner}
+      </Link>
+    )
+  }
+
+  return inner
 }

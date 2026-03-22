@@ -13,18 +13,17 @@ export default function Areas() {
         className="reveal max-w-xl mb-20"
       >
         <p className="text-sm tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
-          What's Covered
+          Business Catalog
         </p>
         <h2
           className="font-serif font-light leading-tight mb-5"
           style={{ fontSize: 'clamp(36px, 4vw, 54px)', color: 'var(--text)' }}
         >
-          Every area of life<br />has a{' '}
-          <em style={{ fontStyle: 'italic', color: 'var(--sage)' }}>place here.</em>
+          Every model, fully{' '}
+          <em style={{ fontStyle: 'italic', color: 'var(--sage)' }}>built for you.</em>
         </h2>
         <p className="text-md leading-loose" style={{ color: 'var(--text-dim)' }}>
-          Most productivity tools only cover work. We built ours for the full picture — because you
-          can't separate who you are from what you do.
+          Don't start from scratch. Every business model is designed, tested, and automated — ready for you to plug in and launch.
         </p>
       </div>
 

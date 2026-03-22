@@ -31,7 +31,7 @@ export default function Quote() {
           lineHeight: 1.4,
         }}
       >
-        "When everything has a home, you stop wasting energy finding it — and start using it."
+        "The hard part isn't running a business — it's building one. We did the building. You just show up."
       </p>
       <p className="text-xs tracking-widest uppercase" style={{ color: 'var(--text-faint)' }}>
         — The Effortless Works Promise

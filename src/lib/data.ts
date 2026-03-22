@@ -1,21 +1,20 @@
 import type { Product, LifeArea, NavLink } from '@/types'
 
 export const NAV_LINKS: NavLink[] = [
-  { label: 'Templates', href: '#products' },
-  { label: 'Spreadsheets', href: '#products' },
-  { label: 'Courses', href: '#products' },
+  { label: 'How It Works', href: '#how-it-works' },
+  { label: 'Business Models', href: '#products' },
   { label: 'About', href: '#about' },
 ]
 
 export const MARQUEE_ITEMS: string[] = [
-  'Notion Templates',
-  'Spreadsheets',
-  'Business Trackers',
-  'Faith & Growth',
-  'Life Planning',
-  'Goal Setting',
-  'Courses',
-  'Financial Clarity',
+  'Business in a Box',
+  'Luma Powered',
+  'Crocheting Business',
+  'Content Creation',
+  'Automated Sales',
+  '3D Printing',
+  'Fully Automated',
+  'Pick & Launch',
 ]
 
 export const PRODUCTS: Product[] = [
@@ -58,27 +57,27 @@ export const PRODUCTS: Product[] = [
 export const LIFE_AREAS: LifeArea[] = [
   {
     number: '01',
-    name: 'Business',
-    description: 'Revenue, clients, projects, and growth — all tracked and organized.',
-    tags: ['Finance', 'Clients', 'Goals'],
+    name: 'Crocheting Business',
+    description: 'Sentro knitting machines + Luma. Orders, Etsy listings, inventory, and marketing all run automatically.',
+    tags: ['Available', 'Physical Product', 'Luma Powered'],
   },
   {
     number: '02',
-    name: 'Personal Growth',
-    description: 'Books, habits, reflections, and the version of yourself you\'re becoming.',
-    tags: ['Habits', 'Reading', 'Mindset'],
+    name: 'Content Creation',
+    description: 'Books, podcasts, YouTube — one automated pipeline. Luma schedules, promotes, and grows your audience.',
+    tags: ['Available', 'Digital', 'Luma Powered'],
   },
   {
     number: '03',
-    name: 'Faith',
-    description: 'Devotionals, prayer logs, and spiritual rhythms that ground everything else.',
-    tags: ['Prayer', 'Scripture', 'Journal'],
+    name: 'Automated Sales',
+    description: 'Companies need sales — you run it for them. Luma handles lead gen, outreach, follow-ups, and reporting.',
+    tags: ['Coming Soon', 'B2B Service', 'Luma Powered'],
   },
   {
     number: '04',
-    name: 'Life Admin',
-    description: 'Health, home, relationships — the everyday things that deserve their own space.',
-    tags: ['Health', 'Home', 'Family'],
+    name: '3D Printing Business',
+    description: 'Print custom products on demand. Luma manages your store, orders, and reprint queue automatically.',
+    tags: ['Coming Soon', 'Physical Product', 'Luma Powered'],
   },
 ]
 

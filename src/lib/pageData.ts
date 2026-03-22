@@ -690,3 +690,92 @@ export const P_INSTRUCTOR_SECTION: ProductSection = {
     { id: 'p-il-pp', type: 'Course', name: 'Personal Projects Live Session', description: 'Get your personal project management system set up live with instructor support.', price: 197, href: '#', available: false, launchMonth: 'Coming Soon', tags: ['Live', 'Guided', 'Bundled Tools', 'Projects'] },
   ],
 }
+
+// ─── PARENT PRODUCT PAGES ────────────────────────────────────────────────────
+// These pages sit at /back-office, /project-management, etc.
+// Each shows course placeholder + Sheets vs Notion comparison.
+
+export const BACK_OFFICE_PARENT_META: PageMeta = {
+  eyebrow: 'Business Systems',
+  title: 'Back Office',
+  subtitle: 'your operations, organized.',
+  description: 'Sales, clients, KPIs, commissions, payroll, and recruitment — all in one system. Choose the tool that fits how you work.',
+}
+
+export const BACK_OFFICE_PARENT_SECTION: ProductSection = {
+  id: 'back-office-compare',
+  title: 'Choose your version',
+  description: 'Same system, two tools. Pick the one that already lives in your workflow.',
+  products: [
+    { id: 'bo-sheets', type: 'Google Sheets', name: 'Back Office — Google Sheets', description: 'Sales tracking, KPI dashboard, client CRM, commission calculator, payroll tracker, and recruitment pipeline — all in one spreadsheet system.', price: 49, href: '/000009/bo-sheets', available: false, launchMonth: 'May', featured: true, tags: ['Google Sheets', 'Sales', 'KPIs', 'Payroll'] },
+    { id: 'bo-notion', type: 'Notion', name: 'Back Office — Notion', description: 'The full Back Office system rebuilt as a connected Notion workspace. Every tracker linked, every update synced.', price: 49, href: '/000009/bo-notion', available: false, launchMonth: 'June', tags: ['Notion', 'Sales', 'KPIs', 'Payroll'] },
+  ],
+}
+
+export const PROJECT_MANAGEMENT_PARENT_META: PageMeta = {
+  eyebrow: 'Business Systems',
+  title: 'Project Management',
+  subtitle: 'every project on track.',
+  description: 'Goals dashboards, project folders, version control, and brand sets — a complete project system built for how you actually work.',
+}
+
+export const PROJECT_MANAGEMENT_PARENT_SECTION: ProductSection = {
+  id: 'project-management-compare',
+  title: 'Choose your version',
+  description: 'Same system, two tools. Pick the one that already lives in your workflow.',
+  products: [
+    { id: 'pm-sheets', type: 'Google Sheets', name: 'Project Management — Google Sheets', description: 'Goals dashboard, project dashboard, project folder template, version control, and individual brand set — all in Google Sheets.', price: 39, href: '/000010/pm-sheets', available: false, launchMonth: 'March', featured: true, tags: ['Google Sheets', 'Goals', 'Projects', 'Tracking'] },
+    { id: 'pm-notion', type: 'Notion', name: 'Project Management — Notion', description: 'Project folders, version control, and brand sets all linked inside one clean Notion workspace.', price: 39, href: '/000010/pm-notion', available: false, launchMonth: 'April', tags: ['Notion', 'Goals', 'Projects', 'Tracking'] },
+  ],
+}
+
+export const PERSONAL_TRACKERS_PARENT_META: PageMeta = {
+  eyebrow: 'Personal Systems',
+  title: 'Personal Trackers',
+  subtitle: 'every area of your life.',
+  description: 'Eight milestone trackers — faith, family, health, nutrition, exercise, skills, business, and education — connected in one place.',
+}
+
+export const PERSONAL_TRACKERS_PARENT_SECTION: ProductSection = {
+  id: 'personal-trackers-compare',
+  title: 'Choose your version',
+  description: 'Same system, two tools. Pick the one that already lives in your workflow.',
+  products: [
+    { id: 'pt-sheets', type: 'Google Sheets', name: 'Personal Trackers — Google Sheets', description: 'Eight life area trackers — faith, family, self-care, nutrition, exercise, skills, business, and education — in one Google Sheets system.', price: 29, href: '/000013/pt-sheets', available: false, launchMonth: 'July', featured: true, tags: ['Google Sheets', 'Health', 'Faith', 'Habits'] },
+    { id: 'pt-notion', type: 'Notion', name: 'Personal Trackers — Notion', description: 'All eight life trackers connected inside one Notion workspace. Every milestone, every area, in one place.', price: 29, href: '/000013/pt-notion', available: false, launchMonth: 'August', tags: ['Notion', 'Health', 'Faith', 'Habits'] },
+  ],
+}
+
+export const PERSONAL_PROJECTS_PARENT_META: PageMeta = {
+  eyebrow: 'Personal Systems',
+  title: 'Personal Projects',
+  subtitle: 'your work, your way.',
+  description: 'Goals dashboards, project folders, and version control — the same structure the pros use, built for the things you are working on for yourself.',
+}
+
+export const PERSONAL_PROJECTS_PARENT_SECTION: ProductSection = {
+  id: 'personal-projects-compare',
+  title: 'Choose your version',
+  description: 'Same system, two tools. Pick the one that already lives in your workflow.',
+  products: [
+    { id: 'pp-sheets', type: 'Google Sheets', name: 'Personal Projects — Google Sheets', description: 'Goals dashboard, project dashboard, project folder set, version control, and individual branch sets — all in Google Sheets.', price: 29, href: '/000014/pp-sheets', available: false, launchMonth: 'September', featured: true, tags: ['Google Sheets', 'Goals', 'Projects', 'Planning'] },
+    { id: 'pp-notion', type: 'Notion', name: 'Personal Projects — Notion', description: 'All five personal project templates pre-linked inside one Notion workspace, ready from day one.', price: 29, href: '/000014/pp-notion', available: false, launchMonth: 'October', tags: ['Notion', 'Goals', 'Projects', 'Planning'] },
+  ],
+}
+
+export const LIFE_TRACKER_PARENT_META: PageMeta = {
+  eyebrow: 'Personal Systems',
+  title: 'Life Tracker',
+  subtitle: 'all of it, in one place.',
+  description: 'Your entire life — goals, projects, habits, milestones — organized into one connected system. The complete picture, always in view.',
+}
+
+export const LIFE_TRACKER_PARENT_SECTION: ProductSection = {
+  id: 'life-tracker-compare',
+  title: 'Choose your version',
+  description: 'Same system, two tools. Pick the one that already lives in your workflow.',
+  products: [
+    { id: 'lt-sheets', type: 'Google Sheets', name: 'Life Tracker — Google Sheets', description: 'Goals dashboard, project dashboard, project folder set, version control, and individual branch set. Your entire life, organized.', price: 34, href: '/000012/lt-sheets', available: false, launchMonth: 'November', featured: true, tags: ['Google Sheets', 'Goals', 'Life System', 'Complete'] },
+    { id: 'lt-notion', type: 'Notion', name: 'Life Tracker — Notion', description: 'The full Life Tracker rebuilt as one connected Notion workspace. Every area of your life, linked.', price: 34, href: '/000012/lt-notion', available: false, launchMonth: 'December', tags: ['Notion', 'Goals', 'Life System', 'Complete'] },
+  ],
+}

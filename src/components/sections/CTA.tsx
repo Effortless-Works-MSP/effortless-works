@@ -23,18 +23,17 @@ export default function CTA() {
         className="reveal px-16 py-20 flex flex-col justify-center"
       >
         <p className="text-sm tracking-widest uppercase mb-5" style={{ color: 'var(--sage)' }}>
-          Stay in the loop
+          Join the waitlist
         </p>
         <h2
           className="font-serif font-light leading-tight mb-5"
           style={{ fontSize: 'clamp(32px, 3vw, 48px)', color: 'var(--text)' }}
         >
-          New templates,{' '}
-          <em style={{ fontStyle: 'italic', color: 'var(--sage)' }}>regularly.</em>
+          New business models,{' '}
+          <em style={{ fontStyle: 'italic', color: 'var(--sage)' }}>coming soon.</em>
         </h2>
         <p className="text-md leading-loose max-w-sm" style={{ color: 'var(--text-dim)' }}>
-          Join the list and be the first to know when new spreadsheets, Notion templates, and
-          courses drop.
+          Be the first to know when new business-in-a-box models launch — fully built, Luma-powered, and ready to run.
         </p>
       </div>
 
@@ -63,7 +62,7 @@ export default function CTA() {
         ) : (
           <>
             <p className="text-md leading-loose" style={{ color: 'var(--text-dim)' }}>
-              No noise. Just new tools to help you stay organized — delivered to your inbox.
+              No noise. Just early access to new business models — delivered to your inbox.
             </p>
             <div className="flex gap-3">
               <input
@@ -89,7 +88,7 @@ export default function CTA() {
                 onMouseEnter={e => (e.currentTarget.style.background = '#8fd4b4')}
                 onMouseLeave={e => (e.currentTarget.style.background = 'var(--sage)')}
               >
-                Join the list
+                Join waitlist
               </button>
             </div>
             <p className="text-sm tracking-wide" style={{ color: 'var(--text-faint)' }}>

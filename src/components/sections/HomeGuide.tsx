@@ -2,6 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
+
+const EcosystemTree = dynamic(() => import('./EcosystemTree'), { ssr: false })
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -51,6 +54,7 @@ const RESULTS: Record<string, Result> = {
   'byo-notion':  { id: 'byo-notion',  symbol: '❖', name: 'Custom Notion Workspace',description: 'A complete Notion setup designed from scratch around your team, systems, and goals.',                   includes: ['Custom Workspace', 'Linked Databases', 'Tailored to your systems', 'Delivered on Fiverr'],                             href: '/build-your-own', price: null, tag: 'Custom' },
 
   // ── Coming soon ───────────────────────────────────────────────────────────
+  'business-dashboard':  { id: 'business-dashboard',  symbol: '◉', name: 'Business Dashboard', description: 'One connected hub for your entire business — operations, projects, finances, and growth all linked in one place.',   includes: ['Back Office', 'Project Management', 'KPI Overview', 'Revenue Dashboard', 'Team Hub'],                                   href: '#', price: null, tag: 'Coming Soon', comingSoon: true },
   'career-tracker':      { id: 'career-tracker',      symbol: '✦', name: 'Career Compass',     description: 'Map your career path, track goals, and document every win — from where you are to where you want to be.',          includes: ['Career Goal Tracker', 'Skills Map', 'Milestone Log', 'Wins & Feedback Journal', 'Quarterly Review'],                  href: '#', price: null, tag: 'Coming Soon', comingSoon: true },
   'finance-tracker':     { id: 'finance-tracker',     symbol: '◉', name: 'Finance Tracker',    description: 'Total clarity over your money — income, expenses, savings goals, and net worth all in one place.',                 includes: ['Income Dashboard', 'Expense Tracker', 'Savings Goals', 'Net Worth Calculator', 'Monthly Review'],                     href: '#', price: null, tag: 'Coming Soon', comingSoon: true },
   'mindfulness-tracker': { id: 'mindfulness-tracker', symbol: '◌', name: 'Mind Space',         description: 'A dedicated home for your inner life — daily reflection, gratitude, mood tracking, and mindfulness practice.',     includes: ['Daily Journal', 'Mood & Energy Log', 'Gratitude Practice', 'Reflection Prompts', 'Weekly Review'],                    href: '#', price: null, tag: 'Coming Soon', comingSoon: true },
@@ -65,121 +69,39 @@ const RESULTS: Record<string, Result> = {
 
 const STEPS: Record<string, Step> = {
 
-  // ── Level 1 — Life areas ──────────────────────────────────────────────────
+  // ── Level 1 — Two pathways ────────────────────────────────────────────────
   start: {
-    id: 'start', eyebrow: 'Let\'s find your fit',
-    question: 'Which area of life do you want to build?',
+    id: 'start', eyebrow: 'Your home is ready.',
+    question: 'Where would you like to start?',
     choices: [
-      { symbol: '◈', label: 'Work & Business',       description: 'Career, business, and professional growth',     next: 'area-work'    },
-      { symbol: '◎', label: 'Mind & Growth',         description: 'Habits, goals, skills, and inner development',  next: 'area-mind'    },
-      { symbol: '⬡', label: 'Body & Health',         description: 'Fitness, nutrition, and self care',             next: 'area-health'  },
-      { symbol: '○', label: 'Spirit & Faith',        description: 'Faith, mindfulness, and spiritual practice',    next: 'area-spirit'  },
-      { symbol: '❖', label: 'People & Relationships',description: 'Family, friends, and community',               next: 'area-people'  },
-      { symbol: '✦', label: 'Life & Adventures',     description: 'Travel, hobbies, experiences, and creativity',  next: 'area-life'    },
-      { symbol: '▦', label: 'Projects & Legacy',     description: 'Personal projects, milestones, and impact',    next: 'area-legacy'  },
+      { symbol: '◈', label: 'My business.', description: 'Operations, projects, and the systems that keep it running.', next: 'area-business' },
+      { symbol: '○', label: 'My life.',     description: 'Health, relationships, goals, and everything you\'re managing.',   next: 'area-personal' },
     ],
   },
 
-  // ── Work & Business ───────────────────────────────────────────────────────
-  'area-work': {
-    id: 'area-work', eyebrow: 'Work & Business',
-    question: 'What does your work life need most?',
+  // ── Business path ─────────────────────────────────────────────────────────
+  'area-business': {
+    id: 'area-business', eyebrow: 'Your business',
+    question: 'What does your business need most right now?',
     choices: [
-      { symbol: '✦', label: 'Career planning',          description: 'Goals, growth, and my professional path',   results: ['career-tracker']  },
-      { symbol: '◈', label: 'Running a business',       description: 'Operations, sales, clients, and payroll',   next: 'build-business'       },
-      { symbol: '▦', label: 'Managing projects',        description: 'Timelines, goals, and version control',     next: 'tool-pm'              },
-      { symbol: '◉', label: 'Tracking finances',        description: 'Income, expenses, and financial clarity',   results: ['finance-tracker'] },
-      { symbol: '⬡', label: 'Building something custom',description: 'A website, app, or custom tool',            next: 'build-custom'         },
+      { symbol: '▦', label: 'Running operations',        description: 'Sales, clients, KPIs, and payroll — the engine of your business.',          next: 'tool-bo'                    },
+      { symbol: '◈', label: 'Managing projects',         description: 'Goals, timelines, and delivery — every initiative on track.',               next: 'tool-pm'                    },
+      { symbol: '✦', label: 'Growing my career',         description: 'Goals, skills, and the professional path you are building toward.',         results: ['career-tracker']        },
+      { symbol: '◉', label: 'All of it — the full system',description: 'Every part of your business connected and running in one place.',          results: ['business-dashboard']    },
     ],
   },
 
-  // ── Business sub-branch ───────────────────────────────────────────────────
-  'build-business': {
-    id: 'build-business', eyebrow: 'Running a business',
-    question: 'Where does your business need the most support?',
+  // ── Personal path ─────────────────────────────────────────────────────────
+  'area-personal': {
+    id: 'area-personal', eyebrow: 'Your life',
+    question: 'What part of your life are you building?',
     choices: [
-      { symbol: '▦', label: 'Running operations',    description: 'Sales, clients, KPIs, payroll',       next: 'tool-bo'      },
-      { symbol: '◈', label: 'Managing projects',     description: 'Goals, timelines, version control',   next: 'tool-pm'      },
-      { symbol: '◎', label: 'I\'m just starting out',description: 'I need a full system from scratch',   next: 'tool-biz-all' },
-    ],
-  },
-
-  // ── Mind & Growth ─────────────────────────────────────────────────────────
-  'area-mind': {
-    id: 'area-mind', eyebrow: 'Mind & Growth',
-    question: 'What are you working on within yourself?',
-    choices: [
-      { symbol: '◎', label: 'Daily habits & milestones',  description: 'Track the eight areas of my life',          next: 'tool-pt'                      },
-      { symbol: '◈', label: 'Goals & personal projects',   description: 'Ideas and personal work I am pursuing',     next: 'tool-pp'                      },
-      { symbol: '◌', label: 'Mindfulness & inner growth',  description: 'Reflection, meditation, and presence',     results: ['mindfulness-tracker']      },
-      { symbol: '❖', label: 'All of it — full life system',description: 'Goals, projects, and every milestone',     next: 'tool-lt'                      },
-    ],
-  },
-
-  // ── Body & Health ─────────────────────────────────────────────────────────
-  'area-health': {
-    id: 'area-health', eyebrow: 'Body & Health',
-    question: 'What are you tracking for your health?',
-    choices: [
-      { symbol: '◎', label: 'Fitness, nutrition & self care', description: 'Routines, meals, and wellness goals',      next: 'tool-pt' },
-      { symbol: '❖', label: 'All areas of life together',     description: 'Health as part of a complete life system', next: 'tool-lt' },
-    ],
-  },
-
-  // ── Spirit & Faith ────────────────────────────────────────────────────────
-  'area-spirit': {
-    id: 'area-spirit', eyebrow: 'Spirit & Faith',
-    question: 'How do you want to nurture your spiritual life?',
-    choices: [
-      { symbol: '○', label: 'Faith milestones & practice', description: 'Log intentions, prayers, and spiritual goals', next: 'tool-pt'                  },
-      { symbol: '◌', label: 'Mindfulness & reflection',    description: 'Daily presence, journaling, and inner work',  results: ['mindfulness-tracker']  },
-      { symbol: '❖', label: 'All of life, connected',      description: 'Spirit as part of your complete life system', next: 'tool-lt'                  },
-    ],
-  },
-
-  // ── People & Relationships ────────────────────────────────────────────────
-  'area-people': {
-    id: 'area-people', eyebrow: 'People & Relationships',
-    question: 'What matters most in your relationships?',
-    choices: [
-      { symbol: '◎', label: 'Nurturing connections',      description: 'Stay close to the people who matter most',    results: ['relationship-keeper'] },
-      { symbol: '❖', label: 'Family milestones & moments',description: 'Goals, memories, and intentions for family',  next: 'tool-pt'                  },
-      { symbol: '○', label: 'All of life, including people',description: 'Community as part of your full system',     next: 'tool-lt'                  },
-    ],
-  },
-
-  // ── Life & Adventures ─────────────────────────────────────────────────────
-  'area-life': {
-    id: 'area-life', eyebrow: 'Life & Adventures',
-    question: 'What experiences are you building toward?',
-    choices: [
-      { symbol: '⊹', label: 'Travel & adventures',  description: 'Plan trips and capture every experience',    results: ['travel-planner'] },
-      { symbol: '◈', label: 'Hobbies & creativity', description: 'A dedicated space for creative practice',    results: ['creativity-log'] },
-      { symbol: '❖', label: 'Track everything',     description: 'A full life system for every area',          next: 'tool-lt'             },
-    ],
-  },
-
-  // ── Projects & Legacy ─────────────────────────────────────────────────────
-  'area-legacy': {
-    id: 'area-legacy', eyebrow: 'Projects & Legacy',
-    question: 'What legacy are you building?',
-    choices: [
-      { symbol: '▦', label: 'Personal projects',        description: 'Ideas, goals, and work I\'m actively pursuing', next: 'tool-pp'              },
-      { symbol: '○', label: 'Community & mentorship',   description: 'Teaching, contributing, and giving back',       results: ['community-board'] },
-      { symbol: '◈', label: 'Life milestones & legacy', description: 'Document the story and impact you\'re building',results: ['legacy-journal']  },
-      { symbol: '❖', label: 'Everything — full life OS',description: 'Goals, projects, milestones, all connected',    next: 'tool-lt'              },
-    ],
-  },
-
-  // ── Custom build ──────────────────────────────────────────────────────────
-  'build-custom': {
-    id: 'build-custom', eyebrow: 'Building something custom',
-    question: 'What do you need built?',
-    choices: [
-      { symbol: '⬡', label: 'A website',           description: 'Designed and built for your brand',   results: ['byo-website'] },
-      { symbol: '◈', label: 'An app',              description: 'Web app or custom dashboard',          results: ['byo-app']     },
-      { symbol: '▦', label: 'A custom spreadsheet',description: 'Google Sheets tailored to you',        results: ['byo-sheets']  },
-      { symbol: '❖', label: 'A Notion workspace',  description: 'Custom Notion built for your systems', results: ['byo-notion']  },
+      { symbol: '◎', label: 'Health, fitness & daily routines',    description: 'Your body, energy, and the habits that hold everything together.',       next: 'tool-pt'                              },
+      { symbol: '✦', label: 'Goals, habits & personal growth',     description: 'The milestones, skills, and daily practices that move you forward.',     next: 'tool-pt'                              },
+      { symbol: '❖', label: 'Relationships & the people I care about', description: 'Family, friends, and the connections that define your life.',        results: ['relationship-keeper']             },
+      { symbol: '⊹', label: 'Travel, creativity & experiences',   description: 'The adventures, creative work, and experiences you are building toward.', results: ['travel-planner', 'creativity-log'] },
+      { symbol: '▦', label: 'Personal projects & what I\'m building', description: 'Ideas, goals, and work that is yours — outside of any job title.',   next: 'tool-pp'                              },
+      { symbol: '○', label: 'All of it — my whole life in one place', description: 'Goals, projects, habits, milestones, and every area, connected.',    next: 'tool-lt'                              },
     ],
   },
 
@@ -200,15 +122,6 @@ const STEPS: Record<string, Step> = {
       { symbol: '▦', label: 'Google Sheets', description: 'Spreadsheets — familiar and powerful', results: ['pm-sheets']            },
       { symbol: '❖', label: 'Notion',        description: 'Visual, connected, flexible',          results: ['pm-notion']            },
       { symbol: '○', label: 'Open to either',description: 'Show me both',                         results: ['pm-sheets','pm-notion'] },
-    ],
-  },
-  'tool-biz-all': {
-    id: 'tool-biz-all', eyebrow: 'Almost there',
-    question: 'Where do you do your best work?',
-    choices: [
-      { symbol: '▦', label: 'Google Sheets', description: 'Spreadsheets — familiar and powerful', results: ['bo-sheets','pm-sheets']                       },
-      { symbol: '❖', label: 'Notion',        description: 'Visual, connected, flexible',          results: ['bo-notion','pm-notion']                       },
-      { symbol: '○', label: 'Open to either',description: 'Show me everything',                   results: ['bo-sheets','pm-sheets','bo-notion','pm-notion'] },
     ],
   },
   'tool-pt': {
@@ -240,444 +153,153 @@ const STEPS: Record<string, Step> = {
   },
 }
 
-// ─── 3D Carousel ─────────────────────────────────────────────────────────────
+// ─── Choice grid ─────────────────────────────────────────────────────────────
 
-const CARD_W = 164
-const CARD_H = 196
-const RADIUS_X = 240   // horizontal spread on the disc
-const RADIUS_Z = 90    // depth of the disc
-const Y_TILT   = 18    // front items sit slightly higher than back items
-
-interface CarouselProps {
+interface ChoiceGridProps {
   choices: Choice[]
   onSelect: (c: Choice) => void
 }
 
-// ─── Mobile carousel (flat, one card at a time) ───────────────────────────────
-
-function MobileCarousel({ choices, onSelect }: CarouselProps) {
-  const N = choices.length
-  const [idx, setIdx] = useState(0)
-  const [dir, setDir] = useState(0) // -1 left, 1 right, for animation
-  const [animKey, setAnimKey] = useState(0)
-  const touchStartX = useRef<number | null>(null)
-
-  function go(next: number) {
-    const d = next > idx ? 1 : -1
-    setDir(d)
-    setIdx(next)
-    setAnimKey(k => k + 1)
-  }
-  function prev() { go((idx - 1 + N) % N) }
-  function next() { go((idx + 1) % N) }
-
-  function handleTouchStart(e: React.TouchEvent) { touchStartX.current = e.touches[0].clientX }
-  function handleTouchEnd(e: React.TouchEvent) {
-    if (touchStartX.current === null) return
-    const dx = e.changedTouches[0].clientX - touchStartX.current
-    if (Math.abs(dx) > 40) { if (dx > 0) prev(); else next() }
-    touchStartX.current = null
-  }
-
-  const choice = choices[idx]
-  const arrowStyle: React.CSSProperties = {
-    position: 'absolute', top: '50%', transform: 'translateY(-50%)',
-    width: 44, height: 44, borderRadius: '50%',
-    background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.09)',
-    color: 'rgba(232,228,220,0.45)', fontSize: 18, cursor: 'pointer',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    fontFamily: 'inherit', zIndex: 10,
-  }
+function ChoiceGrid({ choices, onSelect }: ChoiceGridProps) {
+  const cols = choices.length === 2 ? 2 : choices.length <= 4 ? 2 : 3
 
   return (
-    <div style={{ userSelect: 'none' }}>
+    <>
       <style>{`
-        @keyframes mob-slide-in-r { from { opacity: 0; transform: translateX(40px) } to { opacity: 1; transform: translateX(0) } }
-        @keyframes mob-slide-in-l { from { opacity: 0; transform: translateX(-40px) } to { opacity: 1; transform: translateX(0) } }
+        .hg-choice-card {
+          background: linear-gradient(155deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 22px;
+          padding: 32px 28px;
+          cursor: pointer;
+          text-align: left;
+          transition: background 0.2s, border-color 0.2s, transform 0.18s;
+          font-family: inherit;
+          width: 100%;
+          box-sizing: border-box;
+          position: relative;
+          overflow: hidden;
+        }
+        .hg-choice-card:hover {
+          background: linear-gradient(155deg, rgba(123,191,160,0.10) 0%, rgba(123,191,160,0.03) 100%);
+          border-color: rgba(123,191,160,0.35);
+          transform: translateY(-3px);
+        }
+        .hg-choice-card::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 15%; right: 15%; height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(123,191,160,0.0), transparent);
+          transition: background 0.2s;
+        }
+        .hg-choice-card:hover::before {
+          background: linear-gradient(90deg, transparent, rgba(123,191,160,0.4), transparent);
+        }
+        @media (max-width: 640px) {
+          .hg-choice-grid { grid-template-columns: 1fr !important; }
+        }
       `}</style>
-
-      {/* Card area */}
       <div
-        style={{ position: 'relative', padding: '0 56px', height: 220 }}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
+        className="hg-choice-grid"
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${cols}, 1fr)`,
+          gap: 16,
+          maxWidth: cols === 2 ? 700 : 900,
+          margin: '0 auto',
+        }}
       >
-        <button onClick={prev} style={{ ...arrowStyle, left: 0 }}>←</button>
-        <button onClick={next} style={{ ...arrowStyle, right: 0 }}>→</button>
-
-        <div
-          key={animKey}
-          style={{
-            animation: `${dir >= 0 ? 'mob-slide-in-r' : 'mob-slide-in-l'} 0.22s ease`,
-            textAlign: 'center', padding: '28px 16px 20px',
-            background: 'linear-gradient(155deg, rgba(123,191,160,0.12) 0%, rgba(123,191,160,0.03) 100%)',
-            border: '1px solid rgba(123,191,160,0.3)',
-            borderRadius: 24,
-            height: 220, boxSizing: 'border-box',
-            display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-          }}
-        >
-          <div style={{ fontSize: 56, color: '#7BBFA0', lineHeight: 1, marginBottom: 16 }}>{choice.symbol}</div>
-          <p style={{
-            fontFamily: 'Cormorant Garamond, serif', fontWeight: 300,
-            fontSize: 26, color: '#E8E4DC', margin: '0 0 12px', lineHeight: 1.15,
-          }}>{choice.label}</p>
-          <p style={{ fontSize: 13, color: 'rgba(232,228,220,0.45)', margin: 0, lineHeight: 1.75 }}>
-            {choice.description}
-          </p>
-        </div>
-      </div>
-
-      {/* Dot indicators */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 20 }}>
-        {choices.map((_, i) => (
+        {choices.map(choice => (
           <button
-            key={i} onClick={() => go(i)}
-            style={{
-              width: i === idx ? 22 : 6, height: 6, borderRadius: 3, padding: 0, border: 'none',
-              background: i === idx ? '#7BBFA0' : 'rgba(255,255,255,0.15)',
-              cursor: 'pointer', transition: 'all 0.2s',
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Confirm */}
-      <div style={{ textAlign: 'center', marginTop: 32 }}>
-        <button
-          onClick={() => onSelect(choice)}
-          style={{
-            padding: '13px 48px', borderRadius: 100,
-            background: '#7BBFA0', color: '#0C0D0E',
-            border: 'none', fontSize: 13, fontWeight: 500,
-            letterSpacing: '0.08em', cursor: 'pointer', fontFamily: 'inherit',
-          }}
-        >
-          Choose this →
-        </button>
-      </div>
-    </div>
-  )
-}
-
-// ─── Desktop 3D carousel ──────────────────────────────────────────────────────
-
-function DesktopCarousel({ choices, onSelect }: CarouselProps) {
-  const N = choices.length
-  const step = 360 / N
-
-  // We use a continuous rotation value animated via rAF for smoothness
-  const rotRef = useRef(0)          // current visual rotation (degrees)
-  const targetRef = useRef(0)       // target rotation
-  const frameRef = useRef<number>()
-  const animatingRef = useRef(false)
-  const itemRefs = useRef<(HTMLDivElement | null)[]>([])
-  const symRefs  = useRef<(HTMLElement | null)[]>([])
-  const lblRefs  = useRef<(HTMLElement | null)[]>([])
-  const glowRefs = useRef<(HTMLElement | null)[]>([])
-  const descRef = useRef<HTMLParagraphElement | null>(null)
-  const activeIdxRef = useRef(0)
-  const touchStartX = useRef<number | null>(null)
-
-  // Apply positions directly to DOM for smooth animation without React re-renders
-  function applyPositions(rot: number) {
-    const activeIdx = Math.round(-rot / step + N * 1000) % N
-    if (activeIdxRef.current !== activeIdx) {
-      activeIdxRef.current = activeIdx
-      if (descRef.current) {
-        descRef.current.style.opacity = '0'
-        setTimeout(() => {
-          if (descRef.current) {
-            descRef.current.textContent = choices[activeIdx]?.description ?? ''
-            descRef.current.style.opacity = '1'
-          }
-        }, 120)
-      }
-    }
-
-    for (let i = 0; i < N; i++) {
-      const el = itemRefs.current[i]
-      if (!el) continue
-
-      const angleDeg = (i * step) + rot
-      const rad = (angleDeg * Math.PI) / 180
-      const x = Math.sin(rad) * RADIUS_X
-      const depth = Math.cos(rad)
-      const y = -depth * Y_TILT
-      const t = (depth + 1) / 2
-      const scale = 0.48 + t * 0.58
-      const opacity = depth < -0.65 ? 0 : 0.22 + t * 0.78
-      const zIndex = Math.round(t * 100)
-      const isActive = i === activeIdx
-
-      el.style.transform = `translate(${x - CARD_W / 2}px, ${y - CARD_H / 2}px) scale(${scale})`
-      el.style.opacity = String(opacity)
-      el.style.zIndex = String(zIndex)
-      el.style.background = isActive
-        ? 'linear-gradient(155deg, rgba(123,191,160,0.14) 0%, rgba(123,191,160,0.04) 100%)'
-        : 'linear-gradient(155deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)'
-      el.style.borderColor = isActive ? 'rgba(123,191,160,0.38)' : 'rgba(255,255,255,0.06)'
-      el.style.boxShadow = isActive ? '0 24px 64px rgba(0,0,0,0.45)' : 'none'
-
-      const sym = symRefs.current[i]
-      if (sym) sym.style.color = isActive ? '#7BBFA0' : 'rgba(232,228,220,0.22)'
-
-      const lbl = lblRefs.current[i]
-      if (lbl) lbl.style.color = isActive ? '#E8E4DC' : 'rgba(232,228,220,0.38)'
-
-      const glow = glowRefs.current[i]
-      if (glow) glow.style.background = isActive
-        ? 'linear-gradient(90deg, transparent, rgba(123,191,160,0.55), transparent)'
-        : 'linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent)'
-    }
-  }
-
-  function startRaf() {
-    if (animatingRef.current) return
-    animatingRef.current = true
-    const tick = () => {
-      const diff = targetRef.current - rotRef.current
-      if (Math.abs(diff) > 0.05) {
-        rotRef.current += diff * 0.2
-        applyPositions(rotRef.current)
-        frameRef.current = requestAnimationFrame(tick)
-      } else {
-        rotRef.current = targetRef.current
-        applyPositions(rotRef.current)
-        animatingRef.current = false
-      }
-    }
-    frameRef.current = requestAnimationFrame(tick)
-  }
-
-  // rAF loop — starts on demand, stops when done
-  useEffect(() => {
-    return () => { if (frameRef.current) cancelAnimationFrame(frameRef.current) }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [choices])
-
-  // Reset when choices change (new step)
-  useEffect(() => {
-    if (frameRef.current) cancelAnimationFrame(frameRef.current)
-    animatingRef.current = false
-    rotRef.current = 0
-    targetRef.current = 0
-    activeIdxRef.current = 0
-    applyPositions(0)
-    if (descRef.current) {
-      descRef.current.textContent = choices[0]?.description ?? ''
-      descRef.current.style.opacity = '1'
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [choices])
-
-  function goLeft()  { targetRef.current += step; startRaf() }
-  function goRight() { targetRef.current -= step; startRaf() }
-
-  function clickItem(i: number) {
-    const cur = Math.round(-targetRef.current / step + N * 1000) % N
-    if (cur === i) {
-      onSelect(choices[i])
-      return
-    }
-    // Shortest path
-    const fwd = ((i - cur) + N) % N
-    const bck = ((cur - i) + N) % N
-    if (fwd <= bck) targetRef.current -= fwd * step
-    else             targetRef.current += bck * step
-    startRaf()
-  }
-
-  function confirmActive() {
-    const cur = Math.round(-targetRef.current / step + N * 1000) % N
-    onSelect(choices[cur])
-  }
-
-  function handleTouchStart(e: React.TouchEvent) {
-    touchStartX.current = e.touches[0].clientX
-  }
-
-  function handleTouchEnd(e: React.TouchEvent) {
-    if (touchStartX.current === null) return
-    const dx = e.changedTouches[0].clientX - touchStartX.current
-    if (Math.abs(dx) > 40) {
-      if (dx > 0) { targetRef.current += step; startRaf() }
-      else         { targetRef.current -= step; startRaf() }
-    }
-    touchStartX.current = null
-  }
-
-  return (
-    <div style={{ userSelect: 'none' }}>
-      {/* ── Stage ── */}
-      <div
-        style={{ position: 'relative', height: 340 }}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-      >
-
-        {/* Ellipse platform */}
-        <div style={{
-          position: 'absolute', bottom: 18, left: '50%',
-          transform: 'translateX(-50%) scaleY(0.22)',
-          width: 580, height: 200,
-          borderRadius: '50%',
-          border: '1px solid rgba(123,191,160,0.2)',
-          background: 'radial-gradient(ellipse, rgba(123,191,160,0.06) 0%, transparent 65%)',
-          pointerEvents: 'none',
-        }} />
-
-        {/* Soft glow beneath center */}
-        <div style={{
-          position: 'absolute', bottom: 40, left: '50%',
-          transform: 'translateX(-50%)',
-          width: 260, height: 260,
-          background: 'radial-gradient(circle, rgba(123,191,160,0.07) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
-
-        {/* ← Arrow */}
-        <button
-          onClick={goLeft}
-          className="car-arrow"
-          aria-label="Previous"
-          style={{
-            position: 'absolute', zIndex: 200,
-            left: 8, top: '50%',
-            transform: 'translateY(-50%)',
-            width: 46, height: 46, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.09)',
-            color: 'rgba(232,228,220,0.45)',
-            fontSize: 18, cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'inherit',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(123,191,160,0.1)'; e.currentTarget.style.borderColor = 'rgba(123,191,160,0.35)'; e.currentTarget.style.color = '#7BBFA0' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)'; e.currentTarget.style.color = 'rgba(232,228,220,0.45)' }}
-        >←</button>
-
-        {/* → Arrow */}
-        <button
-          onClick={goRight}
-          className="car-arrow"
-          aria-label="Next"
-          style={{
-            position: 'absolute', zIndex: 200,
-            right: 8, top: '50%',
-            transform: 'translateY(-50%)',
-            width: 46, height: 46, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.09)',
-            color: 'rgba(232,228,220,0.45)',
-            fontSize: 18, cursor: 'pointer',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontFamily: 'inherit',
-            transition: 'all 0.2s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(123,191,160,0.1)'; e.currentTarget.style.borderColor = 'rgba(123,191,160,0.35)'; e.currentTarget.style.color = '#7BBFA0' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.09)'; e.currentTarget.style.color = 'rgba(232,228,220,0.45)' }}
-        >→</button>
-
-        {/* Item container — centered in stage */}
-        <div style={{
-          position: 'absolute',
-          left: '50%', top: '50%',
-          width: 0, height: 0,
-        }}>
-          {choices.map((choice, i) => (
-            <div
-              key={choice.label}
-              ref={el => { itemRefs.current[i] = el }}
-              onClick={() => clickItem(i)}
-              style={{
-                position: 'absolute',
-                width: CARD_W, height: CARD_H,
-                borderRadius: 22,
-                border: '1px solid rgba(255,255,255,0.06)',
-                cursor: 'pointer',
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'center',
-                gap: 14, padding: '24px 18px',
-                overflow: 'hidden',
-                willChange: 'transform, opacity',
-              }}
-            >
-              {/* Top edge glow */}
-              <div ref={el => { glowRefs.current[i] = el }} style={{
-                position: 'absolute', top: 0, left: '18%', right: '18%', height: 1,
-                pointerEvents: 'none',
-              }} />
-
-              {/* Symbol */}
-              <div ref={el => { symRefs.current[i] = el }} style={{
-                fontSize: 50, lineHeight: 1,
-                fontFamily: 'inherit',
-                transition: 'color 0.25s',
-              }}>
+            key={choice.label}
+            className="hg-choice-card"
+            onClick={() => onSelect(choice)}
+          >
+            {choice.symbol && (
+              <div style={{ fontSize: 28, color: '#7BBFA0', marginBottom: 16, lineHeight: 1 }}>
                 {choice.symbol}
               </div>
-
-              {/* Label */}
-              <p ref={el => { lblRefs.current[i] = el }} style={{
-                fontFamily: 'Cormorant Garamond, serif',
-                fontSize: 16, fontWeight: 400,
-                margin: 0, textAlign: 'center', lineHeight: 1.3,
-                transition: 'color 0.25s',
-              }}>
-                {choice.label}
-              </p>
-            </div>
-          ))}
-        </div>
+            )}
+            <p style={{
+              fontFamily: 'Cormorant Garamond, serif',
+              fontWeight: 300, fontSize: 24,
+              color: '#E8E4DC', margin: '0 0 10px', lineHeight: 1.15,
+            }}>{choice.label}</p>
+            <p style={{
+              fontSize: 13, color: 'rgba(232,228,220,0.42)',
+              margin: 0, lineHeight: 1.8,
+            }}>{choice.description}</p>
+          </button>
+        ))}
       </div>
-
-      {/* ── Below stage: description + confirm ── */}
-      <div style={{ textAlign: 'center', marginTop: 8 }}>
-        <p
-          ref={descRef}
-          style={{
-            fontSize: 14, color: 'rgba(232,228,220,0.42)',
-            lineHeight: 1.85, margin: '0 auto 32px',
-            maxWidth: 320,
-            minHeight: 44,
-            transition: 'opacity 0.15s',
-          }}
-        >
-          {choices[0]?.description}
-        </p>
-
-        <button
-          onClick={confirmActive}
-          style={{
-            padding: '13px 48px', borderRadius: 100,
-            background: '#7BBFA0', color: '#0C0D0E',
-            border: 'none', fontSize: 13, fontWeight: 500,
-            letterSpacing: '0.08em', cursor: 'pointer',
-            fontFamily: 'inherit',
-            transition: 'background 0.2s, transform 0.15s',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = '#8fd4b4'; e.currentTarget.style.transform = 'translateY(-2px)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = '#7BBFA0'; e.currentTarget.style.transform = 'translateY(0)' }}
-        >
-          Choose this →
-        </button>
-      </div>
-    </div>
+    </>
   )
 }
 
-function Carousel({ choices, onSelect }: CarouselProps) {
-  const [isMobile, setIsMobile] = useState(false)
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-  if (isMobile) return <MobileCarousel choices={choices} onSelect={onSelect} />
-  return <DesktopCarousel choices={choices} onSelect={onSelect} />
+// ─── Tree ecosystems data ─────────────────────────────────────────────────────
+
+interface TreeNode {
+  id: string
+  label: string
+  description: string
+  href: string
+  comingSoon?: boolean
+}
+
+interface TreeEcosystem {
+  rootLabel: string
+  rootHref:  string
+  nodes:     TreeNode[]
+}
+
+const TREE_ECOSYSTEMS: Record<string, TreeEcosystem> = {
+  'area-business': {
+    rootLabel: 'Business Dashboard',
+    rootHref:  '/business-dashboard',
+    nodes: [
+      { id: 'tool-bo',        label: 'Back Office',        description: 'Sales, clients, KPIs, payroll',    href: '/back-office'        },
+      { id: 'tool-pm',        label: 'Project Management', description: 'Goals, timelines, delivery',       href: '/project-management' },
+      { id: 'career-tracker', label: 'Career Compass',     description: 'Skills, path, milestones',         href: '/career-compass',    comingSoon: true },
+    ],
+  },
+  'area-personal': {
+    rootLabel: 'Life Tracker',
+    rootHref:  '/life-tracker',
+    nodes: [
+      { id: 'tool-pt',             label: 'Personal Trackers', description: 'Health, habits, milestones',       href: '/personal-trackers'  },
+      { id: 'tool-pp',             label: 'Personal Projects', description: 'Goals, projects, version control', href: '/personal-projects'  },
+      { id: 'relationship-keeper', label: 'Connection Keeper', description: 'People, family, community',        href: '/connection-keeper', comingSoon: true },
+      { id: 'travel-planner',      label: 'Journey Planner',   description: 'Travel, experiences',              href: '/journey-planner',   comingSoon: true },
+      { id: 'creativity-log',      label: 'Creative Studio',   description: 'Creativity, hobbies',              href: '/creative-studio',   comingSoon: true },
+    ],
+  },
+}
+
+// ─── Tree view ────────────────────────────────────────────────────────────────
+
+interface TreeViewProps {
+  areaStepId:      string
+  selectedNodeIds: string[]
+  onBack:          () => void
+}
+
+function TreeView({ areaStepId, selectedNodeIds, onBack }: TreeViewProps) {
+  const eco = TREE_ECOSYSTEMS[areaStepId]
+  if (!eco) return null
+
+  const ecoNodes = eco.nodes.map(n => ({
+    ...n,
+    selected: selectedNodeIds.includes(n.id),
+  }))
+
+  return (
+    <EcosystemTree
+      rootLabel={eco.rootLabel}
+      rootHref={eco.rootHref}
+      nodes={ecoNodes}
+      onBack={onBack}
+    />
+  )
 }
 
 // ─── Result card ──────────────────────────────────────────────────────────────
@@ -1023,6 +645,17 @@ const PLAN_STEPS: Record<string, { intro: string; actions: string[] }> = {
   },
 
   // ── Coming soon ───────────────────────────────────────────────────────────
+  'business-dashboard': {
+    intro: 'You are building something real. Here is how to get everything running together.',
+    actions: [
+      'Start with your operations — get Back Office set up so your sales, clients, and payroll have a home.',
+      'Layer in Project Management so every initiative has goals, timelines, and a clear owner.',
+      'Connect your KPI dashboard so you can see the health of your business in one view at any time.',
+      'Add your team — roles, responsibilities, and access — so nothing runs through you alone.',
+      'Review your numbers and project statuses every week. The habit of looking is what keeps it running.',
+      'Business Dashboard is being built — it will bring all of this into one connected hub for your entire business.',
+    ],
+  },
   'career-tracker': {
     intro: 'Your career is one of the biggest investments of your life. Here\'s how to take it seriously.',
     actions: [
@@ -1222,7 +855,7 @@ function PlanScreen({
   onBack: () => void
   onReset: () => void
 }) {
-  const [pacing, setPacing] = useState<'all' | 'step' | null>(null)
+  const [pacing, setPacing] = useState<'all' | 'step' | null>('all') // always all-at-once, no choice screen
   // Completed lines per segment (index 0 = intro, 1+ = actions)
   const [segLines, setSegLines] = useState<string[][]>(segments.map(() => []))
   const [currentSeg, setCurrentSeg] = useState(-1)
@@ -1236,13 +869,10 @@ function PlanScreen({
   const pacingRef = useRef<'all' | 'step' | null>(null)
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(STEP_STORAGE_KEY)
-      if (raw) {
-        const s = JSON.parse(raw) as { count: number; next: number }
-        if (s.count === segments.length && s.next > 0 && s.next < segments.length) setSavedStep(s.next)
-      }
-    } catch {}
+    // Auto-start typing immediately (no pacing choice screen)
+    pacingRef.current = 'all'
+    clearProgress()
+    beginTyping(0)
     return () => { if (typingRef.current) clearInterval(typingRef.current) }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -1626,9 +1256,11 @@ export default function HomeGuide() {
   const [results, setResults] = useState<string[] | null>(null)
   const [animKey, setAnimKey] = useState(0)
   const [visible, setVisible] = useState(true)
+  // Tree view state: when set, we show the ecosystem tree instead of advancing immediately
+  const [treeChoice, setTreeChoice] = useState<{ areaStepId: string; selectedNodeIds: string[]; choice: Choice } | null>(null)
 
   const currentStep = STEPS[history[history.length - 1]]
-  const canGoBack = history.length > 1 || results !== null
+  const canGoBack = history.length > 1 || results !== null || treeChoice !== null
 
   // Restore state when navigating back from a product page
   useEffect(() => {
@@ -1664,6 +1296,7 @@ export default function HomeGuide() {
     function onPop() {
       transition(() => {
         if (results) { setResults(null) }
+        else if (treeChoice) { setTreeChoice(null) }
         else if (history.length > 1) { setHistory(h => h.slice(0, -1)) }
       })
     }
@@ -1677,8 +1310,28 @@ export default function HomeGuide() {
     setTimeout(() => { fn(); setAnimKey(k => k + 1); setVisible(true) }, 260)
   }
 
+  // Which steps should show the tree diagram before proceeding
+  const TREE_STEPS = new Set(['area-business', 'area-personal'])
+
   function handleSelect(choice: Choice) {
+    const parentStepId = history[history.length - 1]
+    // If we're on a tree step and picking a sub-choice (not start), show tree first
+    if (TREE_STEPS.has(parentStepId)) {
+      const nodeId = choice.results ? choice.results[0] : (choice.next ?? '')
+      transition(() => { setTreeChoice({ areaStepId: parentStepId, selectedNodeIds: choice.results ?? (choice.next ? [choice.next] : []), choice }) })
+      return
+    }
     transition(() => {
+      if (choice.results) { setResults(choice.results) }
+      else if (choice.next) { setHistory(h => [...h, choice.next!]); setResults(null) }
+    })
+  }
+
+  function handleTreeProceed() {
+    if (!treeChoice) return
+    const { choice } = treeChoice
+    transition(() => {
+      setTreeChoice(null)
       if (choice.results) { setResults(choice.results) }
       else if (choice.next) { setHistory(h => [...h, choice.next!]); setResults(null) }
     })
@@ -1690,7 +1343,7 @@ export default function HomeGuide() {
   }
 
   function reset() {
-    transition(() => { setHistory(['start']); setResults(null) })
+    transition(() => { setHistory(['start']); setResults(null); setTreeChoice(null) })
     document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -1749,28 +1402,91 @@ export default function HomeGuide() {
               onReset={reset}
             />
 
-          ) : (
-            /* ── Carousel question ── */
-            <div>
-              <div style={{ textAlign: 'center', marginBottom: 56 }}>
-                <p style={{ fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#7BBFA0', margin: '0 0 20px' }}>
-                  {currentStep.eyebrow}
-                </p>
-                <h2 style={{
-                  fontFamily: 'Cormorant Garamond, serif',
-                  fontWeight: 300, fontSize: 'clamp(36px, 4.5vw, 60px)',
-                  color: '#E8E4DC', margin: '0 auto', lineHeight: 1.1,
-                  maxWidth: 600,
-                }}>
-                  {currentStep.question}
-                </h2>
-              </div>
+          ) : treeChoice ? (
+            /* ── Tree view ── */
+            <TreeView
+              areaStepId={treeChoice.areaStepId}
+              selectedNodeIds={treeChoice.selectedNodeIds}
+              onBack={goBack}
+            />
 
-              <Carousel
-                key={currentStep.id}
-                choices={currentStep.choices}
-                onSelect={handleSelect}
-              />
+          ) : (
+            /* ── Choice grid question ── */
+            <div>
+              {currentStep.id === 'start' ? (
+                /* ── Opening step — full-height declaration layout ── */
+                <div style={{ textAlign: 'center', marginBottom: 56 }}>
+                  <p style={{ fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#7BBFA0', margin: '0 0 40px' }}>
+                    Your home is ready.
+                  </p>
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                    gap: 28, maxWidth: 860, margin: '0 auto',
+                  }}>
+                    {currentStep.choices.map(choice => (
+                      <button
+                        key={choice.label}
+                        onClick={() => handleSelect(choice)}
+                        style={{
+                          padding: '72px 52px',
+                          borderRadius: 28,
+                          background: 'linear-gradient(155deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)',
+                          border: '1px solid rgba(255,255,255,0.08)',
+                          cursor: 'pointer', textAlign: 'left',
+                          fontFamily: 'inherit',
+                          transition: 'all 0.2s',
+                          position: 'relative', overflow: 'hidden',
+                          minHeight: 260,
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.background = 'linear-gradient(155deg, rgba(123,191,160,0.10) 0%, rgba(123,191,160,0.03) 100%)'
+                          e.currentTarget.style.borderColor = 'rgba(123,191,160,0.35)'
+                          e.currentTarget.style.transform = 'translateY(-4px)'
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.background = 'linear-gradient(155deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)'
+                          e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'
+                          e.currentTarget.style.transform = 'translateY(0)'
+                        }}
+                      >
+                        <p style={{
+                          fontFamily: 'Cormorant Garamond, serif', fontWeight: 300,
+                          fontSize: 'clamp(32px, 4vw, 48px)',
+                          color: '#E8E4DC', margin: '0 0 20px', lineHeight: 1.05,
+                        }}>{choice.label}</p>
+                        <p style={{
+                          fontSize: 14, color: 'rgba(232,228,220,0.42)',
+                          margin: 0, lineHeight: 1.85,
+                        }}>{choice.description}</p>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                /* ── All other steps — standard header + grid ── */
+                <>
+                  <div style={{ textAlign: 'center', marginBottom: 56 }}>
+                    <p style={{ fontSize: 11, letterSpacing: '0.28em', textTransform: 'uppercase', color: '#7BBFA0', margin: '0 0 20px' }}>
+                      {currentStep.eyebrow}
+                    </p>
+                    <h2 style={{
+                      fontFamily: 'Cormorant Garamond, serif',
+                      fontWeight: 300, fontSize: 'clamp(36px, 4.5vw, 60px)',
+                      color: '#E8E4DC', margin: '0 auto', lineHeight: 1.1,
+                      maxWidth: 600,
+                    }}>
+                      {currentStep.question}
+                    </h2>
+                  </div>
+
+                  <ChoiceGrid
+                    key={currentStep.id}
+                    choices={currentStep.choices}
+                    onSelect={handleSelect}
+                  />
+                </>
+              )}
 
               {canGoBack && (
                 <div style={{ display: 'flex', justifyContent: 'center', marginTop: 40 }}>
